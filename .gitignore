@@ -25,6 +25,6 @@ hs_err_pid*
 # additional files (intellij)
 bin
 out
-*.idea
+.idea
 *.iml
 .DS_Store
