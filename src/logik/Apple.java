@@ -7,23 +7,9 @@ public class Apple {
     private int yCoordinate;
     private final Random randomNumberGenerator = new Random();
 
-    public int getxCoordinate() {
-        return xCoordinate;
-    }
-
-    public void setxCoordinate(int xCoordinate) {
-        this.xCoordinate = xCoordinate;
-    }
-
-    public int getyCoordinate() {
-        return yCoordinate;
-    }
-
-    public void setyCoordinate(int yCoordinate) {
-        this.yCoordinate = yCoordinate;
-    }
-
     public void generateNewApple(int screenWidth, int screenHeight, int unitSize) {
+        //TODO:
+        // get screenWidth, screemHeight and unitSize from window function and not from parameters!!
         xCoordinate = randomNumberGenerator.nextInt((screenWidth/unitSize)) * unitSize;
         yCoordinate = randomNumberGenerator.nextInt((screenHeight/unitSize)) * unitSize;
 
