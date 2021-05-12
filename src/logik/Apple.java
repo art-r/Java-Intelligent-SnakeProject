@@ -10,7 +10,8 @@ public class Apple {
     public void generateNewApple(int screenWidth, int screenHeight, int unitSize) {
         //TODO:
         // get screenWidth, screemHeight and unitSize from window function and not from parameters!!
-        xCoordinate = randomNumberGenerator.nextInt((screenWidth/unitSize)) * unitSize;
+        Window.getWindowHeight
+        xCoordinate = randomNumberGenerator.nextInt((Window./unitSize)) * unitSize;
         yCoordinate = randomNumberGenerator.nextInt((screenHeight/unitSize)) * unitSize;
 
         //TODO:
