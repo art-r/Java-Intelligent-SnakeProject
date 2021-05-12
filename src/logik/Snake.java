@@ -26,10 +26,10 @@ public class Snake {
     public int move(int x, int y) {
         switch (currentDirection) {
             case "Up":
-                window.setY[0] = window.setY[0] + window.getBlocksize; //TO-DO: getter- und setter-Funktionen von Window
+                window.setY[0] = window.setY[0] - window.getBlocksize; //TO-DO: getter- und setter-Funktionen von Window
                 break;
             case "Down":
-                window.setY[0] = window.setY[0] - window.getBlocksize;
+                window.setY[0] = window.setY[0] + window.getBlocksize;
                 break;
             case "Left":
                 window.setX[0] = window.setX[0] - window.getBlocksize;
