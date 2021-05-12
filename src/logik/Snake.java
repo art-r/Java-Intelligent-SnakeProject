@@ -1,12 +1,14 @@
 package logik;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Snake {
-    private int bodyPartCounter = 5;
     private int appleCounter = 0;
     private String currentDirection = "Right";
     private Color currentColor = Color.green;
+    private ArrayList<Integer> bodypartX = new ArrayList<>();
+    private ArrayList<Integer> bodypartY = new ArrayList<>();
 
     public void setCurrentColor(Color currentColor) {
         this.currentColor = currentColor;
@@ -18,24 +20,33 @@ public class Snake {
 
     public void eatApple() {
         appleCounter++;
-        bodyPartCounter++;
+        bodypartX.add(0);
+        bodypartY.add(0);
     }
 
 
-
     public int move(int x, int y) {
+        //move Body in Direction of Head
+        for (int bodyPart = bodypartX.size(); bodyPart > 0; bodyPart--) {
+            bodypartX.set(bodyPart, bodypartX.get(bodyPart - 1));
+            bodypartY.set(bodyPart, bodypartY.get(bodyPart - 1));
+        }
+
+        //TODO:
+        //implement window.getBlocksize in window class
+
         switch (currentDirection) {
             case "Up":
-                window.setY[0] = window.setY[0] - window.getBlocksize; //TO-DO: getter- und setter-Funktionen von Window
+                bodypartY.set(0, bodypartY.get(0)-window.getBlocksize);
                 break;
             case "Down":
-                window.setY[0] = window.setY[0] + window.getBlocksize;
+                bodypartY.set(0, bodypartY.get(0)+window.getBlocksize);
                 break;
             case "Left":
-                window.setX[0] = window.setX[0] - window.getBlocksize;
+                bodypartX.set(0, bodypartX.get(0)-window.getBlocksize);
                 break;
             case "Right":
-                window.setX[0] = window.setX[0] + window.getBlocksize;
+                bodypartX.set(0, bodypartX.get(0)+window.getBlocksize);
                 break;
         }
         return 0;
