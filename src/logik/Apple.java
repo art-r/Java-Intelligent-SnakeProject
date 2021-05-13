@@ -1,19 +1,23 @@
 package logik;
 
+import java.awt.*;
 import java.util.Random;
 
 public class Apple {
-    private int xCoordinate;
-    private int yCoordinate;
-    private final Random randomNumberGenerator = new Random();
+    private static int xCoordinate;
+    private static int yCoordinate;
+    private static final Random randomNumberGenerator = new Random();
 
-    public void generateNewApple(int screenWidth, int screenHeight, int unitSize) {
-        //TODO:
-        // get screenWidth, screemHeight and unitSize from window function and not from parameters!!
-        xCoordinate = randomNumberGenerator.nextInt((screenWidth/unitSize)) * unitSize;
-        yCoordinate = randomNumberGenerator.nextInt((screenHeight/unitSize)) * unitSize;
+    public static void generateNewApple(int screenWidth, int screenHeight, int unitSize) {
+        xCoordinate = randomNumberGenerator.nextInt((Window.getWindowHeight()/Window.getBoxSize())) * Window.getBoxSize();
+        yCoordinate = randomNumberGenerator.nextInt((Window.getWindowHeight()/Window.getBoxSize())) * Window.getBoxSize();
+    }
 
-        //TODO:
-        //Call Apple paint method in Window class with these generated values!!
+    public static int getxCoordinate() {
+        return xCoordinate;
+    }
+
+    public static int getyCoordinate() {
+        return yCoordinate;
     }
 }
