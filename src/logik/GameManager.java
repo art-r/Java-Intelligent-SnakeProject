@@ -50,36 +50,23 @@ public class GameManager extends JPanel implements ActionListener {
         //only draw these parts if the game is running!
         if (isRunning) {
             //the apple
-            g.setColor(Color.red);
-            g.fillOval(apple.getxCoordinate(), apple.getyCoordinate(), window.getBOXLENGTH(), window.getBOXLENGTH());
+            window.setAppleCoordinates(apple.getxCoordinate(), apple.getyCoordinate());
+            window.drawApple(g);
 
             //the snake body parts
             snakeBodyPartsX = snake.getBodypartX();
             snakeBodyPartsY = snake.getBodypartY();
 
-            for (int bodyPart = snake.getBodypartX().size(); bodyPart < 0; bodyPart++) {
-                //the head is always part 0
-                if (bodyPart == 0) {
-                    g.setColor(Color.green);
-                    g.fillRect(snakeBodyPartsX.get(bodyPart), snakeBodyPartsY.get(bodyPart), window.getBOXLENGTH(), window.getBOXLENGTH());
-                }
-                //the rest of the body should have a little bit more darker green as its color
-                else {
-                    g.setColor(new Color(45, 160, 0));
-                    g.fillRect(snakeBodyPartsX.get(bodyPart), snakeBodyPartsY.get(bodyPart), window.getBOXLENGTH(), window.getBOXLENGTH());
-                }
-            }
-            //TODO:
-            //Print the current highscore at the top of the window
+            window.setSnakeCoordinates(snakeBodyPartsX, snakeBodyPartsY);
+            window.drawSnake(g);
+
+            //TODO: Print the current highscore at the top of the window (implement this in the window class as well!!)
+            window.drawCurrentScore(g);
         }
         //if the game is not running this means that we should print a game over sign!
         else {
-            drawGameOver(g);
+            window.drawGameOver(g); //TODO: Implement this is the window class!!
         }
-    }
-
-    public void drawGameOver(Graphics g) {
-
     }
 
 

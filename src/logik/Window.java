@@ -61,29 +61,27 @@ public class Window extends JPanel {
         return BOXLENGTH;
     }
 
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        draw(g);
-    }
-
-    public void draw(Graphics g) {
-        drawApple(g);
-        drawSnake(g);
-    }
-
     public void drawApple(Graphics g) {
         g.setColor(Color.red);
         g.fillOval(appleX, appleY, BOXLENGTH, BOXLENGTH);
     }
 
     public void drawSnake(Graphics g) {
-        for (int i = 0; i < snakeBodyPartX.size(); i++) {
-            if (i == 0) { //Kopf evtl. andere Farbe
+        for (int bodyPart = 0; bodyPart < snakeBodyPartX.size(); bodyPart++) {
+            if (bodyPart == 0) {
                 g.setColor(snakeCurrentColor);
             } else {
-                g.setColor(snakeCurrentColor);
+                g.setColor(new Color(45, 160, 0));
             }
-            g.fillRect(snakeBodyPartX.get(i), snakeBodyPartY.get(i), BOXLENGTH, boxSize);
+            g.fillRect(snakeBodyPartX.get(bodyPart), snakeBodyPartY.get(bodyPart), BOXLENGTH, BOXLENGTH);
         }
+    }
+
+    public void drawGameOver(Graphics g){
+        //TODO
+    }
+
+    public void drawCurrentScore(Graphics g){
+        //TODO
     }
 }
