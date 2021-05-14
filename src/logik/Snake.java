@@ -4,62 +4,69 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Snake {
-    private static int appleCounter = 0;
-    private static String currentDirection = "Right";
-    private static Color currentColor = Color.green;
-    private static ArrayList<Integer> bodypartX = new ArrayList<>();
-    private static ArrayList<Integer> bodypartY = new ArrayList<>();
+    private int appleCounter = 0;
+    private String currentDirection = "Right";
+    private Color currentColor = Color.green;
+    private ArrayList<Integer> bodypartX = new ArrayList<>();
+    private ArrayList<Integer> bodypartY = new ArrayList<>();
 
-    public static int getAppleCounter() {
+    private int windowBoxSize;
+
+    public Snake(int windowBoxSize){
+        this.windowBoxSize = windowBoxSize;
+    }
+
+    public int getAppleCounter() {
         return appleCounter;
     }
 
-    public static Color getCurrentColor() {
+    public Color getCurrentColor() {
         return currentColor;
     }
 
-    public static ArrayList<Integer> getBodypartX() {
+    public ArrayList<Integer> getBodypartX() {
         return bodypartX;
     }
 
-    public static ArrayList<Integer> getBodypartY() {
+    public ArrayList<Integer> getBodypartY() {
         return bodypartY;
     }
 
-    public static void setCurrentColor(Color EntercurrentColor) {
+    public void setCurrentColor(Color EntercurrentColor) {
         currentColor = EntercurrentColor;
     }
 
-    public static void setCurrentDirection(String EntercurrentDirection) {
+    public void setCurrentDirection(String EntercurrentDirection) {
         currentDirection = EntercurrentDirection;
     }
 
-    public static void eatApple() {
+    public void eatApple() {
         appleCounter++;
         bodypartX.add(0);
         bodypartY.add(0);
     }
 
 
-    public static void move(int x, int y) {
+    public void move(int x, int y) {
         //move Body in Direction of Head
         for (int bodyPart = bodypartX.size(); bodyPart > 0; bodyPart--) {
             bodypartX.set(bodyPart, bodypartX.get(bodyPart - 1));
             bodypartY.set(bodyPart, bodypartY.get(bodyPart - 1));
         }
 
+        //move the head in the selected direction
         switch (currentDirection) {
             case "Up":
-                bodypartY.set(0, bodypartY.get(0)-Window.getBoxSize());
+                bodypartY.set(0, (bodypartY.get(0)-windowBoxSize));
                 break;
             case "Down":
-                bodypartY.set(0, bodypartY.get(0)+Window.getBoxSize());
+                bodypartY.set(0, (bodypartY.get(0)+windowBoxSize));
                 break;
             case "Left":
-                bodypartX.set(0, bodypartX.get(0)-Window.getBoxSize());
+                bodypartX.set(0, (bodypartX.get(0)-windowBoxSize));
                 break;
             case "Right":
-                bodypartX.set(0, bodypartX.get(0)+Window.getBoxSize());
+                bodypartX.set(0, (bodypartX.get(0)+windowBoxSize));
                 break;
         }
     }
