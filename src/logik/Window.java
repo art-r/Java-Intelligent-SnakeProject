@@ -11,8 +11,8 @@ public class Window extends JPanel {
     private int windowWidth = 1300;
     private int windowSize = windowHeight * windowWidth;
 
-    private final int boxLength = 50;
-    private int boxSize = boxLength * boxLength;
+    private final int BOXLENGTH = 50;
+    private int boxSize = BOXLENGTH * BOXLENGTH;
 
     private int numberOfBoxes = windowSize / boxSize;
 
@@ -45,12 +45,20 @@ public class Window extends JPanel {
         this.snakeCurrentColor = snakeColor;
     }
 
+    public int getWindowWidth() {
+        return windowWidth;
+    }
+
     public int getWindowHeight() {
         return windowHeight;
     }
 
     public int getBoxSize() {
         return boxSize;
+    }
+
+    public int getBOXLENGTH() {
+        return BOXLENGTH;
     }
 
     public void paintComponent(Graphics g) {
@@ -65,7 +73,7 @@ public class Window extends JPanel {
 
     public void drawApple(Graphics g) {
         g.setColor(Color.red);
-        g.fillOval(appleX, appleY, boxLength, boxLength);
+        g.fillOval(appleX, appleY, BOXLENGTH, BOXLENGTH);
     }
 
     public void drawSnake(Graphics g) {
@@ -75,7 +83,7 @@ public class Window extends JPanel {
             } else {
                 g.setColor(snakeCurrentColor);
             }
-            g.fillRect(snakeBodyPartX.get(i), snakeBodyPartY.get(i), boxLength, boxSize);
+            g.fillRect(snakeBodyPartX.get(i), snakeBodyPartY.get(i), BOXLENGTH, boxSize);
         }
     }
 }

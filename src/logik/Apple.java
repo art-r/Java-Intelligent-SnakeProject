@@ -6,7 +6,7 @@ import java.util.Random;
 public class Apple {
     private int xCoordinate;
     private int yCoordinate;
-    private final Random randomNumberGenerator = new Random();
+    private final Random RANDOM_NUMBER_GENERATOR = new Random();
 
     // these variables are information from the window class (passed through the manager)
     private int windowHeight;
@@ -17,9 +17,9 @@ public class Apple {
         this.windowBoxSize = windowBoxSize;
     }
 
-    public void generateNewApple(int screenWidth, int screenHeight, int unitSize) {
-        xCoordinate = randomNumberGenerator.nextInt((windowHeight/windowBoxSize)) * windowBoxSize;
-        yCoordinate = randomNumberGenerator.nextInt((windowHeight/windowBoxSize)) * windowBoxSize;
+    public void generateNewApple() {
+        xCoordinate = RANDOM_NUMBER_GENERATOR.nextInt((windowHeight/windowBoxSize)) * windowBoxSize;
+        yCoordinate = RANDOM_NUMBER_GENERATOR.nextInt((windowHeight/windowBoxSize)) * windowBoxSize;
     }
 
     public int getxCoordinate() {

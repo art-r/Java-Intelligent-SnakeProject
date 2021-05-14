@@ -40,6 +40,10 @@ public class Snake {
         currentDirection = EntercurrentDirection;
     }
 
+    public String getCurrentDirection() {
+        return currentDirection;
+    }
+
     public void eatApple() {
         appleCounter++;
         bodypartX.add(0);
@@ -47,7 +51,7 @@ public class Snake {
     }
 
 
-    public void move(int x, int y) {
+    public void move() {
         //move Body in Direction of Head
         for (int bodyPart = bodypartX.size(); bodyPart > 0; bodyPart--) {
             bodypartX.set(bodyPart, bodypartX.get(bodyPart - 1));
