@@ -23,9 +23,15 @@ public class GameManager extends JPanel implements ActionListener {
     private ArrayList<Integer> snakeBodyPartsY;
     private String currentDirection;
 
+    //we need these variables later on when checking if the snake has hit itself
+    private int headX;
+    private int headY;
+    private int bodyX;
+    private int bodyY;
+
     //TODO:
     //make framerate variable
-    private int framerate = 150;
+    private int framerate = 400;
 
     //constructor
     public GameManager() {
@@ -113,8 +119,13 @@ public class GameManager extends JPanel implements ActionListener {
         //now check if it has hit itself
         //we check for every bodyPart coordinates if they match the coordinates of the head --> in that case the snake has hit itself
         for (int bodyPart = (snakeBodyPartsX.size()-1); bodyPart > 0; bodyPart--) {
-            if ((snakeBodyPartsX.get(0) == snakeBodyPartsX.get(bodyPart)) && (snakeBodyPartsY.get(0) == snakeBodyPartsY.get(bodyPart))){
+            headX = snakeBodyPartsX.get(0);
+            headY = snakeBodyPartsY.get(0);
+            bodyX = snakeBodyPartsX.get(bodyPart);
+            bodyY = snakeBodyPartsY.get(bodyPart);
+            if((headX == bodyX) && (headY == bodyY)){
                 isRunning = false;
+                break;
             }
         }
 

@@ -51,8 +51,8 @@ public class Snake {
 
     public void eatApple() {
         appleCounter++;
-        bodypartX.add(0);
-        bodypartY.add(0);
+        bodypartX.add(bodypartX.get(bodypartX.size()-1));
+        bodypartY.add(bodypartY.get(bodypartY.size()-1));
     }
 
 

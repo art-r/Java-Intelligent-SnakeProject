@@ -81,7 +81,7 @@ public class Window extends JPanel {
         g.setColor(Color.red);
         g.setFont(new Font("Ink Free", Font.BOLD, 40));
         FontMetrics metrics1 = getFontMetrics(g.getFont());
-        g.drawString("Score: " + applesEaten, (windowWidth - metrics1.stringWidth("Score: " + applesEaten)) / 2, g.getFont().getSize());
+        g.drawString("Reached Score: " + applesEaten, (windowWidth - metrics1.stringWidth("Reached Score: " + applesEaten)) / 2, g.getFont().getSize());
         //Game Over text
         g.setColor(Color.red);
         g.setFont(new Font("Ink Free", Font.BOLD, 75));
@@ -93,7 +93,6 @@ public class Window extends JPanel {
         g.setColor(Color.red);
         g.setFont(new Font("Ink Free", Font.BOLD, 40));
         FontMetrics metrics = getFontMetrics(g.getFont());
-        g.drawString("Score: " + applesEaten, (windowWidth - metrics.stringWidth("Score: " + applesEaten)) / 2, g.getFont().getSize());
-
+        g.drawString("Current Score: " + applesEaten, (windowWidth - metrics.stringWidth("Current Score: " + applesEaten)) / 2, g.getFont().getSize());
     }
 }
