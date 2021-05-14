@@ -5,11 +5,13 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Window extends JPanel {
+    //TODO:
+    //we want to make the sizing of the window not dynamic and not static!
     private int windowHeight = 750;
     private int windowWidth = 1300;
     private int windowSize = windowHeight * windowWidth;
 
-    private int boxLength = 50;
+    private final int boxLength = 50;
     private int boxSize = boxLength * boxLength;
 
     private int numberOfBoxes = windowSize / boxSize;
