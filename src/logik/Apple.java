@@ -4,20 +4,29 @@ import java.awt.*;
 import java.util.Random;
 
 public class Apple {
-    private static int xCoordinate;
-    private static int yCoordinate;
-    private static final Random randomNumberGenerator = new Random();
+    private int xCoordinate;
+    private int yCoordinate;
+    private final Random RANDOM_NUMBER_GENERATOR = new Random();
 
-    public static void generateNewApple(int screenWidth, int screenHeight, int unitSize) {
-        xCoordinate = randomNumberGenerator.nextInt((Window.getWindowHeight()/Window.getBoxSize())) * Window.getBoxSize();
-        yCoordinate = randomNumberGenerator.nextInt((Window.getWindowHeight()/Window.getBoxSize())) * Window.getBoxSize();
+    // these variables are information from the window class (passed through the manager)
+    private int windowHeight;
+    private int windowBoxSize;
+
+    public Apple(int windowHeight, int windowBoxSize) {
+        this.windowHeight = windowHeight;
+        this.windowBoxSize = windowBoxSize;
     }
 
-    public static int getxCoordinate() {
+    public void generateNewApple() {
+        xCoordinate = RANDOM_NUMBER_GENERATOR.nextInt((int)(windowHeight/windowBoxSize)) * windowBoxSize;
+        yCoordinate = RANDOM_NUMBER_GENERATOR.nextInt((int)(windowHeight/windowBoxSize)) * windowBoxSize;
+    }
+
+    public int getxCoordinate() {
         return xCoordinate;
     }
 
-    public static int getyCoordinate() {
+    public int getyCoordinate() {
         return yCoordinate;
     }
 }
