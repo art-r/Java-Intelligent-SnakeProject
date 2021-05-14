@@ -13,7 +13,6 @@ public class Window extends JPanel {
 
     private final int BOXLENGTH = 50;
     private int boxSize = BOXLENGTH * BOXLENGTH;
-
     private int numberOfBoxes = windowSize / boxSize;
 
     //These variables are information from the snake
@@ -25,7 +24,7 @@ public class Window extends JPanel {
     private ArrayList<Integer> snakeBodyPartY;
     private Color snakeCurrentColor;
 
-    //we need an empty constructor to first create only a window (the information about the snake etc. will be passed later on!
+    //empty constructor
     public Window(){ }
 
     //set the appleCoordinates
