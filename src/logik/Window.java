@@ -24,23 +24,23 @@ public class Window extends JPanel {
     private ArrayList<Integer> snakeBodyPartY;
     private Color snakeCurrentColor;
 
-    //empty constructor
-    public Window(){ }
+
+    public Window() { }
 
     //set the appleCoordinates
-    public void setAppleCoordinates(int appleX, int appleY){
+    public void setAppleCoordinates(int appleX, int appleY) {
         this.appleX = appleX;
         this.appleY = appleY;
     }
 
     //set the snake coordinates
-    public void setSnakeCoordinates(ArrayList<Integer> snakeBodyPartX, ArrayList<Integer> snakeBodyPartY){
+    public void setSnakeCoordinates(ArrayList<Integer> snakeBodyPartX, ArrayList<Integer> snakeBodyPartY) {
         this.snakeBodyPartX = snakeBodyPartX;
         this.snakeBodyPartY = snakeBodyPartY;
     }
 
     //set the snake color
-    public void setSnakeColor(Color snakeColor){
+    public void setSnakeColor(Color snakeColor) {
         this.snakeCurrentColor = snakeColor;
     }
 
@@ -76,11 +76,24 @@ public class Window extends JPanel {
         }
     }
 
-    public void drawGameOver(Graphics g){
-        //TODO
+    public void drawGameOver(Graphics g, int applesEaten) {
+        //draw the reached score
+        g.setColor(Color.red);
+        g.setFont(new Font("Ink Free", Font.BOLD, 40));
+        FontMetrics metrics1 = getFontMetrics(g.getFont());
+        g.drawString("Score: " + applesEaten, (windowWidth - metrics1.stringWidth("Score: " + applesEaten)) / 2, g.getFont().getSize());
+        //Game Over text
+        g.setColor(Color.red);
+        g.setFont(new Font("Ink Free", Font.BOLD, 75));
+        FontMetrics metrics2 = getFontMetrics(g.getFont());
+        g.drawString("Game Over", (windowWidth - metrics2.stringWidth("Game Over")) / 2, windowHeight / 2);
     }
 
-    public void drawCurrentScore(Graphics g){
-        //TODO
+    public void drawCurrentScore(Graphics g, int applesEaten) {
+        g.setColor(Color.red);
+        g.setFont(new Font("Ink Free", Font.BOLD, 40));
+        FontMetrics metrics = getFontMetrics(g.getFont());
+        g.drawString("Score: " + applesEaten, (windowWidth - metrics.stringWidth("Score: " + applesEaten)) / 2, g.getFont().getSize());
+
     }
 }

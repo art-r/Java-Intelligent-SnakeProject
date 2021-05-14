@@ -18,8 +18,8 @@ public class Apple {
     }
 
     public void generateNewApple() {
-        xCoordinate = RANDOM_NUMBER_GENERATOR.nextInt((windowHeight/windowBoxSize)) * windowBoxSize;
-        yCoordinate = RANDOM_NUMBER_GENERATOR.nextInt((windowHeight/windowBoxSize)) * windowBoxSize;
+        xCoordinate = RANDOM_NUMBER_GENERATOR.nextInt((int)(windowHeight/windowBoxSize)) * windowBoxSize;
+        yCoordinate = RANDOM_NUMBER_GENERATOR.nextInt((int)(windowHeight/windowBoxSize)) * windowBoxSize;
     }
 
     public int getxCoordinate() {

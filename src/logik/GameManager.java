@@ -12,8 +12,8 @@ import java.util.Random;
 public class GameManager extends JPanel implements ActionListener {
     //create the necessary objects
     private Window window = new Window();
-    private Snake snake = new Snake(window.getBoxSize());
-    private Apple apple = new Apple(window.getWindowHeight(), window.getBoxSize());
+    private Snake snake = new Snake(window.getBOXLENGTH(), 6);
+    private Apple apple = new Apple(window.getWindowHeight(), window.getBOXLENGTH());
 
     private boolean isRunning = false;
     private Timer swingActionEventTimer;
@@ -21,13 +21,20 @@ public class GameManager extends JPanel implements ActionListener {
 
     private ArrayList<Integer> snakeBodyPartsX;
     private ArrayList<Integer> snakeBodyPartsY;
+    private String currentDirection;
 
     //TODO:
     //make framerate variable
-    private int framerate = 50;
+    private int framerate = 150;
 
     //constructor
     public GameManager() {
+        window.setSnakeColor(snake.getCurrentColor());
+
+        this.setPreferredSize(new Dimension(window.getWindowWidth(),window.getWindowHeight()));
+        this.setBackground(Color.black);
+        this.setFocusable(true);
+
         randomGenerator = new Random();
         this.addKeyListener(new ControlKeyChecker());
         startGameFunction();
@@ -61,11 +68,11 @@ public class GameManager extends JPanel implements ActionListener {
             window.drawSnake(g);
 
             //TODO: Print the current highscore at the top of the window (implement this in the window class as well!!)
-            window.drawCurrentScore(g);
+            window.drawCurrentScore(g, snake.getAppleCounter());
         }
         //if the game is not running this means that we should print a game over sign!
         else {
-            window.drawGameOver(g); //TODO: Implement this is the window class!!
+            window.drawGameOver(g, snake.getAppleCounter());
         }
     }
 
@@ -91,7 +98,7 @@ public class GameManager extends JPanel implements ActionListener {
             isRunning = false;
         }
         //snake head x coordinate greater than window width -> has hit the right border
-        else if (snakeBodyPartsX.get(0) > window.getWindowWidth()) {
+        else if (snakeBodyPartsX.get(0) == window.getWindowWidth() || snakeBodyPartsX.get(0) > window.getWindowWidth()) {
             isRunning = false;
         }
         //snake head y coordinate less than 0 -> has hit the upper border
@@ -99,14 +106,14 @@ public class GameManager extends JPanel implements ActionListener {
             isRunning = false;
         }
         //snake head y coordinate greater than window height -> has hit the bottom border
-        else if (snakeBodyPartsY.get(0) > window.getWindowHeight()) {
+        else if (snakeBodyPartsY.get(0) == window.getWindowHeight() || snakeBodyPartsY.get(0) > window.getWindowHeight()) {
             isRunning = false;
         }
 
         //now check if it has hit itself
         //we check for every bodyPart coordinates if they match the coordinates of the head --> in that case the snake has hit itself
-        for (int bodyPart = snakeBodyPartsX.size(); bodyPart > 0; bodyPart--) {
-            if ((snakeBodyPartsX.get(0) == snakeBodyPartsX.get(bodyPart)) && (snakeBodyPartsY.get(0) == snakeBodyPartsY.get(bodyPart))) {
+        for (int bodyPart = (snakeBodyPartsX.size()-1); bodyPart > 0; bodyPart--) {
+            if ((snakeBodyPartsX.get(0) == snakeBodyPartsX.get(bodyPart)) && (snakeBodyPartsY.get(0) == snakeBodyPartsY.get(bodyPart))){
                 isRunning = false;
             }
         }
@@ -133,10 +140,11 @@ public class GameManager extends JPanel implements ActionListener {
 
     //the function that check which key has been pressed and then sets the direction of the snake respectively
     public class ControlKeyChecker extends KeyAdapter {
-        private String currentDirection = snake.getCurrentDirection();
 
         @Override
         public void keyPressed(KeyEvent e) {
+            currentDirection = snake.getCurrentDirection();
+
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
                     if (!currentDirection.equals("Right")) {

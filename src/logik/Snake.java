@@ -12,8 +12,13 @@ public class Snake {
 
     private int windowBoxSize;
 
-    public Snake(int windowBoxSize){
+    public Snake(int windowBoxSize, int startsize){
         this.windowBoxSize = windowBoxSize;
+        //initialize the startsize of the snake
+        for(int counter = 0; counter < startsize; counter++){
+            bodypartX.add(0);
+            bodypartY.add(0);
+        }
     }
 
     public int getAppleCounter() {
@@ -53,7 +58,7 @@ public class Snake {
 
     public void move() {
         //move Body in Direction of Head
-        for (int bodyPart = bodypartX.size(); bodyPart > 0; bodyPart--) {
+        for (int bodyPart = (bodypartX.size()-1); bodyPart > 0; bodyPart--) {
             bodypartX.set(bodyPart, bodypartX.get(bodyPart - 1));
             bodypartY.set(bodyPart, bodypartY.get(bodyPart - 1));
         }
