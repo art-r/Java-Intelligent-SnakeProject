@@ -8,7 +8,7 @@ public class Apple {
     private int xCoordinate;
     private int yCoordinate;
     private final Random RANDOM_NUMBER_GENERATOR = new Random();
-    private boolean newAppleCheck = true;
+    private boolean newAppleCheck;
 
     // these variables are information from the window class (passed through the manager)
     private int windowHeight;
@@ -20,6 +20,7 @@ public class Apple {
     }
 
     public void generateNewApple(ArrayList<Integer> forbiddenX, ArrayList<Integer> forbiddenY) {
+        newAppleCheck = true;
         while (newAppleCheck) {
             xCoordinate = RANDOM_NUMBER_GENERATOR.nextInt((int) (windowHeight / windowBoxSize)) * windowBoxSize;
             yCoordinate = RANDOM_NUMBER_GENERATOR.nextInt((int) (windowHeight / windowBoxSize)) * windowBoxSize;
