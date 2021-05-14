@@ -50,7 +50,7 @@ public class GameManager extends JPanel implements ActionListener {
         isRunning = true;
         swingActionEventTimer = new Timer(framerate, this);
         swingActionEventTimer.start();
-        apple.generateNewApple();
+        apple.generateNewApple(snakeBodyPartsX, snakeBodyPartsY);
     }
 
     @Override
@@ -90,7 +90,7 @@ public class GameManager extends JPanel implements ActionListener {
         //if the head of the snake (index 0) matches the coordinates of the apple the snake has eaten the apple
         if ((snakeBodyPartsX.get(0) == apple.getxCoordinate()) && (snakeBodyPartsY.get(0) == apple.getyCoordinate())) {
             snake.eatApple();
-            apple.generateNewApple();
+            apple.generateNewApple(snakeBodyPartsX, snakeBodyPartsY);
         }
     }
 
