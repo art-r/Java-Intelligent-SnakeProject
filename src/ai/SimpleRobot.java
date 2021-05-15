@@ -5,21 +5,13 @@ import logik.GameWindow;
 import logik.Snake;
 import logik.Window;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 //Current Highscore is 'only' 185 apples at framerate of 10
-public class SimpleRobot {
-    private static GameWindow game;
-    private static Snake snake;
-    private static Window window;
-    private static ArrayList<Integer> snakeX;
-    private static ArrayList<Integer> snakeY;
-    private static int windowHeight;
-    private static int windowWidth;
-    private static int windowBlockSize;
-    private static String snakeCurrentDirection;
-
-    public static void moveRobot() {
+public class SimpleRobot extends RobotMaster{
+    @Override
+    public void moveRobot() {
         snakeX = snake.getBodypartX();
         snakeY = snake.getBodypartY();
         windowHeight = window.getWindowHeight();
@@ -52,17 +44,6 @@ public class SimpleRobot {
         //If it has reached the top
         else if (((snakeY.get(0) == 0) && snakeCurrentDirection.equals("Up")) && (snakeX.get(0) == 0)) {
             game.robotMoveSnake("Right");
-        }
-    }
-
-    public static void main(String[] args) {
-        game = new GameWindow();
-        snake = game.getSnakeObject();
-        window = game.getWindowObject();
-
-        //only keep the robot running as long as the game is running!
-        while (game.gameisRunning()) {
-            moveRobot();
         }
     }
 }

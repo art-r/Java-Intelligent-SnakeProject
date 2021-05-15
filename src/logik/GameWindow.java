@@ -7,12 +7,10 @@ import javax.swing.*;
 public class GameWindow extends JFrame implements RobotAPI {
     private GameManager gameManager = new GameManager();
 
-    public GameWindow(){
+    public void runClassicGame(){
         this.add(gameManager);
         this.setTitle("Snake Game - by ASCSF");
-
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         this.setResizable(false);
         this.pack();
         this.setVisible(true);
