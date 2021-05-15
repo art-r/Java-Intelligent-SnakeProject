@@ -59,14 +59,6 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
         apple.generateNewApple(snakeBodyPartsX, snakeBodyPartsY);
     }
 
-    public int getFramerate() {
-        return framerate;
-    }
-
-    public boolean movementIsBlocked() {
-        return movementIsBlocked;
-    }
-
     @Override
     public void paintComponent(Graphics g) { //Logik
         super.paintComponent(g);
@@ -216,7 +208,8 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
         repaint();
     }
 
-    //Implement RobotAPI <---BEGIN---->
+
+    //Implement RobotAPI |---BEGIN---->
     @Override
     public Snake getSnakeObject() {
         return this.snake;
@@ -241,7 +234,8 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     public void robotMoveSnake(String newDirection) {
         setSnakeDirection(newDirection);
     }
-    //Implement RobotAPI <---END---->
+    //Implement RobotAPI <---END----|
+
 
     //the function that check which key has been pressed and then sets the direction of the snake respectively
     public class ControlKeyChecker extends KeyAdapter {
@@ -265,6 +259,5 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
                     break;
             }
         }
-
     }
 }
