@@ -8,6 +8,7 @@ import logik.Window;
 import java.util.ArrayList;
 
 //TODO: Not yet perfect (current Highscore is 'only' 185 apples at framerate of 10
+//Possible approach: replace thread.sleep for two actions as it is not really reliable especially for very fast movements!
 public class SimpleRobot {
     private static GameWindow game;
     private static Snake snake;
@@ -38,7 +39,7 @@ public class SimpleRobot {
         else if (((snakeY.get(0) == (windowHeight - windowBlockSize)) && snakeCurrentDirection.equals("Down")) && (!(snakeX.get(0) == 0))) {
             game.robotMoveSnake("Left");
             try {
-                Thread.sleep(waitTime);
+                Thread.sleep(waitTime); //TODO: Replace this with something reliable!
             } catch (InterruptedException e){ }
             game.robotMoveSnake("Up");
         }
@@ -47,7 +48,7 @@ public class SimpleRobot {
         else if (((snakeY.get(0) == (0 + (windowBlockSize))) && snakeCurrentDirection.equals("Up")) && (!(snakeX.get(0) == 0))) {
             game.robotMoveSnake("Left");
             try {
-                Thread.sleep(waitTime);
+                Thread.sleep(waitTime); //TODO: Replace this with something reliable!
             } catch (InterruptedException e){ }
             game.robotMoveSnake("Down");
         }
