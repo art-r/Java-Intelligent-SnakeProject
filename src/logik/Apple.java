@@ -57,10 +57,12 @@ public class Apple {
         }
     }
 
+    //getter for the x coordinate of the apple
     public int getxCoordinate() {
         return xCoordinate;
     }
 
+    //getter for the y coordinate of the apple
     public int getyCoordinate() {
         return yCoordinate;
     }
