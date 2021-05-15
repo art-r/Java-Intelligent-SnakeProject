@@ -25,6 +25,7 @@ public class Apple {
             xCoordinate = RANDOM_NUMBER_GENERATOR.nextInt((int) (windowHeight / windowBoxSize)) * windowBoxSize;
             yCoordinate = RANDOM_NUMBER_GENERATOR.nextInt((int) (windowHeight / windowBoxSize)) * windowBoxSize;
 
+            //TODO: this is not a correct implementation (we need to check x & y both)
             if (forbiddenX != null) {
                 if ((forbiddenX.stream().filter(s -> s == xCoordinate).count()) == 0) {
                     if (forbiddenY != null) {
