@@ -7,6 +7,7 @@ import logik.Window;
 
 import java.util.ArrayList;
 
+//TODO: Not yet perfect (current Highscore is 'only' 185 apples at framerate of 10
 public class SimpleRobot {
     private static GameWindow game;
     private static Snake snake;
@@ -18,6 +19,7 @@ public class SimpleRobot {
     private static int windowBlockSize;
     private static String snakeCurrentDirection;
     private static int framerate;
+    private static int waitTime;
 
     public static void moveRobot() {
         snakeX = snake.getBodypartX();
@@ -36,7 +38,7 @@ public class SimpleRobot {
         else if (((snakeY.get(0) == (windowHeight - windowBlockSize)) && snakeCurrentDirection.equals("Down")) && (!(snakeX.get(0) == 0))) {
             game.robotMoveSnake("Left");
             try {
-                Thread.sleep(framerate+10);
+                Thread.sleep(waitTime);
             } catch (InterruptedException e){ }
             game.robotMoveSnake("Up");
         }
@@ -45,7 +47,7 @@ public class SimpleRobot {
         else if (((snakeY.get(0) == (0 + (windowBlockSize))) && snakeCurrentDirection.equals("Up")) && (!(snakeX.get(0) == 0))) {
             game.robotMoveSnake("Left");
             try {
-                Thread.sleep(framerate+10);
+                Thread.sleep(waitTime);
             } catch (InterruptedException e){ }
             game.robotMoveSnake("Down");
         }
@@ -66,7 +68,14 @@ public class SimpleRobot {
         game = new GameWindow();
         snake = game.getSnakeObject();
         window = game.getWindowObject();
+
         framerate = game.getGameManager().getFramerate();
+        if (50 <= framerate){
+            waitTime = framerate * 2;
+        }
+        else {
+            waitTime = framerate + (framerate/2);
+        }
 
         //only keep the robot running as long as the game is running!
         while (game.gameisRunning()) {
