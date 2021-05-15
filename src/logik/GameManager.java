@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
 
 public class GameManager extends JPanel implements ActionListener, RobotAPI {
@@ -19,13 +20,17 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
 
     private boolean isRunning = false;
     private Timer swingActionEventTimer;
-    private Random randomGenerator;
+
+    //this variable is needed to block double input for the movement of the snake...
+    //...because calling the movement method twice will otherwhise cause the snake to dye!
+    private boolean movementIsBlocked = false;
+    private LinkedList<String> movementSaver = new LinkedList<>();
 
     private ArrayList<Integer> snakeBodyPartsX;
     private ArrayList<Integer> snakeBodyPartsY;
     private String currentDirection;
 
-    //we need these variables later on when checking if the snake has hit itself
+    //we need these variables later when checking if the snake has hit itself
     private int headX;
     private int headY;
     private int bodyX;
@@ -33,7 +38,7 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
 
     //TODO:
     //make framerate variable
-    private int framerate = 10;
+    private int framerate = 150;
 
     //constructor
     public GameManager() {
@@ -43,7 +48,6 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
         this.setBackground(Color.black);
         this.setFocusable(true);
 
-        randomGenerator = new Random();
         this.addKeyListener(new ControlKeyChecker());
         startGameFunction();
     }
@@ -57,6 +61,10 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
 
     public int getFramerate() {
         return framerate;
+    }
+
+    public boolean movementIsBlocked() {
+        return movementIsBlocked;
     }
 
     @Override
@@ -79,7 +87,6 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
             window.setSnakeCoordinates(snakeBodyPartsX, snakeBodyPartsY);
             window.drawSnake(g);
 
-            //TODO: Print the current highscore at the top of the window (implement this in the window class as well!!)
             window.drawCurrentScore(g, snake.getAppleCounter());
         }
         //if the game is not running this means that we should print a game over sign!
@@ -142,28 +149,49 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     }
 
     public void setSnakeDirection(String newDirection) {
-        currentDirection = snake.getCurrentDirection();
-        switch (newDirection) {
-            case "Left":
-                if (!currentDirection.equals("Right")) {
-                    snake.setCurrentDirection("Left");
+        //if the snake has not yet executed the previous movement we need to add the new command to a queue
+        if (movementIsBlocked){
+            //only save the newDirection value if it has not been called by a key (in that case newDirection will be null!)
+            if (!(newDirection == null)) {
+                movementSaver.add(newDirection);
+            }
+        }
+        else {
+            if (!movementSaver.isEmpty()) {
+                //only save the newDirection value if it has not been called by a key (in that case newDirection will be null!)
+                if (!(newDirection == null)) {
+                    movementSaver.add(newDirection);
                 }
-                break;
-            case "Right":
-                if (!currentDirection.equals("Left")) {
-                    snake.setCurrentDirection("Right");
-                }
-                break;
-            case "Up":
-                if (!currentDirection.equals("Down")) {
-                    snake.setCurrentDirection("Up");
-                }
-                break;
-            case "Down":
-                if (!currentDirection.equals("Up")) {
-                    snake.setCurrentDirection("Down");
-                }
-                break;
+                newDirection = movementSaver.pop();
+            }
+
+
+            //now block movement again as we are executing the next movement command
+            //movement will be unblocked as soon as the snake has moved (see function actionPerformed)
+            movementIsBlocked = true;
+            currentDirection = snake.getCurrentDirection();
+            switch (newDirection) {
+                case "Left":
+                    if (!currentDirection.equals("Right")) {
+                        snake.setCurrentDirection("Left");
+                    }
+                    break;
+                case "Right":
+                    if (!currentDirection.equals("Left")) {
+                        snake.setCurrentDirection("Right");
+                    }
+                    break;
+                case "Up":
+                    if (!currentDirection.equals("Down")) {
+                        snake.setCurrentDirection("Up");
+                    }
+                    break;
+                case "Down":
+                    if (!currentDirection.equals("Up")) {
+                        snake.setCurrentDirection("Down");
+                    }
+                    break;
+            }
         }
     }
 
@@ -173,7 +201,14 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     public void actionPerformed(ActionEvent e) {
         //only do this if the game is still running
         if (isRunning) {
+            //first check if all queued movements have been executed and if not execute it (we call with null...
+            //...as we dont want to add another direction and only want to make the queue empty!)
+            if (!movementSaver.isEmpty()) {
+                setSnakeDirection(null);
+            }
             snake.move();
+            //after the snake has moved, movement is no longer blocked
+            movementIsBlocked = false;
             checkForApple();
             checkGameOver();
         }

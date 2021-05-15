@@ -38,18 +38,18 @@ public class SimpleRobot {
         //If it is going down and has reached the bottom and is not on the right border of the window
         else if (((snakeY.get(0) == (windowHeight - windowBlockSize)) && snakeCurrentDirection.equals("Down")) && (!(snakeX.get(0) == 0))) {
             game.robotMoveSnake("Left");
-            try {
+            /*try {
                 Thread.sleep(waitTime); //TODO: Replace this with something reliable!
-            } catch (InterruptedException e){ }
+            } catch (InterruptedException e){ }*/
             game.robotMoveSnake("Up");
         }
 
         //If it is going up and has reached the (top - 2 blocks) and is not on the right border of the window
         else if (((snakeY.get(0) == (0 + (windowBlockSize))) && snakeCurrentDirection.equals("Up")) && (!(snakeX.get(0) == 0))) {
             game.robotMoveSnake("Left");
-            try {
+            /*try {
                 Thread.sleep(waitTime); //TODO: Replace this with something reliable!
-            } catch (InterruptedException e){ }
+            } catch (InterruptedException e){ }*/
             game.robotMoveSnake("Down");
         }
 
@@ -72,7 +72,7 @@ public class SimpleRobot {
 
         framerate = game.getGameManager().getFramerate();
         if (50 <= framerate){
-            waitTime = framerate * 2;
+            waitTime = framerate + 40;
         }
         else {
             waitTime = framerate + (framerate/2);
