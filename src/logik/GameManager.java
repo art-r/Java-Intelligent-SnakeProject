@@ -38,7 +38,7 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
 
     //TODO:
     //make framerate variable
-    private int framerate = 150;
+    private int framerate = 30;
 
     //constructor
     public GameManager() {

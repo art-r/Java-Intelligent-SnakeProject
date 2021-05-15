@@ -53,8 +53,8 @@ public class SimpleRobot {
             game.robotMoveSnake("Down");
         }
 
-        //If it has reached the right side
-        else if ((snakeX.get(0) == (0 + windowBlockSize)) && snakeCurrentDirection.equals("Left")) {
+        //If it has reached the left side
+        else if ((snakeX.get(0) == 0) && snakeCurrentDirection.equals("Left")) {
             game.robotMoveSnake("Up");
         }
 
