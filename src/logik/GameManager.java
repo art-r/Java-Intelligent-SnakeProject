@@ -151,8 +151,8 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
             isRunning = false;
         }
 
-        //snake head x coordinate greater than window width -> snake has hit the right border
-        else if (snakeBodyPartsX.get(0) == window.getWINDOW_WIDTH() || snakeBodyPartsX.get(0) > window.getWINDOW_WIDTH()) {
+        //snake head x coordinate equal the window width -> snake has hit the right border
+        else if (snakeBodyPartsX.get(0) == window.getWINDOW_WIDTH()) {
             isRunning = false;
         }
 
@@ -161,17 +161,17 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
             isRunning = false;
         }
 
-        //snake head y coordinate greater than window height -> snake has hit the bottom border
-        else if (snakeBodyPartsY.get(0) == window.getWINDOW_HEIGHT() || snakeBodyPartsY.get(0) > window.getWINDOW_HEIGHT()) {
+        //snake head y coordinate equals the window height -> snake has hit the bottom border
+        else if (snakeBodyPartsY.get(0) == window.getWINDOW_HEIGHT()) {
             isRunning = false;
         }
 
         //now check if the snake has hit itself
         //we check for every bodyPart coordinates if they match the coordinates of the head
         // --> in that case the snake has hit itself
+        headX = snakeBodyPartsX.get(0);
+        headY = snakeBodyPartsY.get(0);
         for (int bodyPart = (snakeBodyPartsX.size() - 1); bodyPart > 0; bodyPart--) {
-            headX = snakeBodyPartsX.get(0);
-            headY = snakeBodyPartsY.get(0);
             bodyX = snakeBodyPartsX.get(bodyPart);
             bodyY = snakeBodyPartsY.get(bodyPart);
             if ((headX == bodyX) && (headY == bodyY)) {
