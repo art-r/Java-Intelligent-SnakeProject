@@ -49,45 +49,45 @@ public class RobotV3 extends RobotMaster {
 
         //move towards the apple
         //first match the x coordinate (but dont move if the direction change would kill the snake)
-        if (snakeX.get(0) > appleX) {
+        if ((snakeX.get(0) > appleX) && (!snakeCurrentDirection.equals("Right"))) {
             potentialNewHeadX = (snakeHeadX - windowBlockSize);
             potentialNewHeadY = snakeHeadY;
             if (pathIsClear()) {
-                if (snakeCurrentDirection.equals("Right")) {
+                /*if (snakeCurrentDirection.equals("Right")) {
                     game.robotMoveSnake("Down");
-                }
+                }*/
                 game.robotMoveSnake("Left");
             }
 
-        } else if (snakeX.get(0) < appleX) {
+        } else if ((snakeX.get(0) < appleX) && (!snakeCurrentDirection.equals("Left"))) {
             potentialNewHeadX = (snakeHeadX + windowBlockSize);
             potentialNewHeadY = snakeHeadY;
             if (pathIsClear()) {
-                if (snakeCurrentDirection.equals("Left")) {
+                /*if (snakeCurrentDirection.equals("Left")) {
                     game.robotMoveSnake("Down");
-                }
+                }*/
                 game.robotMoveSnake("Right");
             }
 
         } else { //if (snakeX.get(0) == appleX)
             //then match the y coordinate (but dont move if the direction change would kill the snake)
-            if (snakeY.get(0) < appleY) {
+            if ((snakeY.get(0) < appleY) && (!snakeCurrentDirection.equals("Up"))) {
                 potentialNewHeadX = snakeHeadX;
                 potentialNewHeadY = (snakeHeadY + windowBlockSize);
                 if (pathIsClear()) {
-                    if (snakeCurrentDirection.equals("Up")) {
+                    /*if (snakeCurrentDirection.equals("Up")) {
                         game.robotMoveSnake("Right");
-                    }
+                    }*/
                     game.robotMoveSnake("Down");
                 }
 
-            } else if (snakeY.get(0) > appleY) {
+            } else if ((snakeY.get(0) > appleY) && (!snakeCurrentDirection.equals("Down"))) {
                 potentialNewHeadX = snakeHeadX;
                 potentialNewHeadY = (snakeHeadY - windowBlockSize);
                 if (pathIsClear()) {
-                    if (snakeCurrentDirection.equals("Down")) {
+                    /*if (snakeCurrentDirection.equals("Down")) {
                         game.robotMoveSnake("Right");
-                    }
+                    }*/
                     game.robotMoveSnake("Up");
                 }
             }
