@@ -49,13 +49,11 @@ public class RobotV3 extends RobotMaster {
 
         //move towards the apple
         //first match the x coordinate (but dont move if the direction change would kill the snake)
+        //also dont do this if the movement is impossible as it would be 180 degree switch of movement
         if ((snakeX.get(0) > appleX) && (!snakeCurrentDirection.equals("Right"))) {
             potentialNewHeadX = (snakeHeadX - windowBlockSize);
             potentialNewHeadY = snakeHeadY;
             if (pathIsClear()) {
-                /*if (snakeCurrentDirection.equals("Right")) {
-                    game.robotMoveSnake("Down");
-                }*/
                 game.robotMoveSnake("Left");
             }
 
@@ -63,9 +61,6 @@ public class RobotV3 extends RobotMaster {
             potentialNewHeadX = (snakeHeadX + windowBlockSize);
             potentialNewHeadY = snakeHeadY;
             if (pathIsClear()) {
-                /*if (snakeCurrentDirection.equals("Left")) {
-                    game.robotMoveSnake("Down");
-                }*/
                 game.robotMoveSnake("Right");
             }
 
@@ -75,9 +70,6 @@ public class RobotV3 extends RobotMaster {
                 potentialNewHeadX = snakeHeadX;
                 potentialNewHeadY = (snakeHeadY + windowBlockSize);
                 if (pathIsClear()) {
-                    /*if (snakeCurrentDirection.equals("Up")) {
-                        game.robotMoveSnake("Right");
-                    }*/
                     game.robotMoveSnake("Down");
                 }
 
@@ -85,9 +77,6 @@ public class RobotV3 extends RobotMaster {
                 potentialNewHeadX = snakeHeadX;
                 potentialNewHeadY = (snakeHeadY - windowBlockSize);
                 if (pathIsClear()) {
-                    /*if (snakeCurrentDirection.equals("Down")) {
-                        game.robotMoveSnake("Right");
-                    }*/
                     game.robotMoveSnake("Up");
                 }
             }
