@@ -20,6 +20,12 @@ public class RobotV3 extends RobotMaster {
                 break;
             }
         }
+        if ((potentialNewHeadX < 0) || (potentialNewHeadX == windowWidth)) {
+            pathClear = false;
+        }
+        if ((potentialNewHeadY < 0 ) || (potentialNewHeadY == windowHeight)) {
+            pathClear = false;
+        }
         return pathClear;
     }
 
@@ -42,7 +48,7 @@ public class RobotV3 extends RobotMaster {
         appleY = apple.getyCoordinate();
 
         //move towards the apple
-        //first match the x coordinate
+        //first match the x coordinate (but dont move if the direction change would kill the snake)
         if (snakeX.get(0) > appleX) {
             potentialNewHeadX = (snakeHeadX - windowBlockSize);
             potentialNewHeadY = snakeHeadY;
@@ -64,7 +70,7 @@ public class RobotV3 extends RobotMaster {
             }
 
         } else { //if (snakeX.get(0) == appleX)
-            //then match the y coordinate
+            //then match the y coordinate (but dont move if the direction change would kill the snake)
             if (snakeY.get(0) < appleY) {
                 potentialNewHeadX = snakeHeadX;
                 potentialNewHeadY = (snakeHeadY + windowBlockSize);
@@ -83,6 +89,66 @@ public class RobotV3 extends RobotMaster {
                         game.robotMoveSnake("Right");
                     }
                     game.robotMoveSnake("Up");
+                }
+            }
+        }
+
+        //now check if the current direction will kill the snake if it continues
+
+        if (snakeCurrentDirection == "Left") {
+            potentialNewHeadX = (snakeHeadX - windowBlockSize);
+            potentialNewHeadY = snakeHeadY;
+            //if the snake moves left and its way is blocked by itself or a border
+            if (!pathIsClear()) {
+                //check if the snake should either move down or up now
+                potentialNewHeadX = snakeHeadX;
+                potentialNewHeadY = (snakeHeadY + windowBlockSize);
+                if (pathIsClear()) {
+                    game.robotMoveSnake("Down");
+                } else {
+                    game.robotMoveSnake("Up");
+                }
+            }
+        } else if (snakeCurrentDirection == "Right") {
+            potentialNewHeadX = (snakeHeadX + windowBlockSize);
+            potentialNewHeadY = snakeHeadY;
+            //if the snake moves right and its way is blocked by itself or a border
+            if (!pathIsClear()) {
+                //check if the snake should either move down or up now
+                potentialNewHeadX = snakeHeadX;
+                potentialNewHeadY = (snakeHeadY + windowBlockSize);
+                if (pathIsClear()) {
+                    game.robotMoveSnake("Down");
+                } else {
+                    game.robotMoveSnake("Up");
+                }
+            }
+        } else if (snakeCurrentDirection == "Down") {
+            potentialNewHeadX = snakeHeadX;
+            potentialNewHeadY = (snakeHeadY + windowBlockSize);
+            //if the snake moves down and its way is blocked by itself or a border
+            if (!pathIsClear()) {
+                //check if the snake should either move right or left now
+                potentialNewHeadX = (snakeHeadX + windowBlockSize);
+                potentialNewHeadY = snakeHeadY;
+                if (pathIsClear()) {
+                    game.robotMoveSnake("Right");
+                } else {
+                    game.robotMoveSnake("Left");
+                }
+            }
+        } else if (snakeCurrentDirection == "Up") {
+            potentialNewHeadX = snakeHeadX;
+            potentialNewHeadY = (snakeHeadY - windowBlockSize);
+            //if the snake moves up and its way is blocked by itself or a border
+            if (!pathIsClear()) {
+                //check if the snake should either move right or left now
+                potentialNewHeadX = (snakeHeadX + windowBlockSize);
+                potentialNewHeadY = snakeHeadY;
+                if (pathIsClear()) {
+                    game.robotMoveSnake("Right");
+                } else {
+                    game.robotMoveSnake("Left");
                 }
             }
         }
