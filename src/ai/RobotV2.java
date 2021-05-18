@@ -49,8 +49,6 @@ public class RobotV2 extends RobotMaster{
                 game.robotMoveSnake("Up");
             }
         }
-
-
     }
 
 
