@@ -1,5 +1,6 @@
 package ai;
 
+import logik.Apple;
 import logik.GameWindow;
 import logik.Snake;
 import logik.Window;
@@ -10,17 +11,20 @@ import java.util.ArrayList;
 //abstract robot class that provides all the important variables to the various robot classes
 //that way the robot classes dont need implement the same redundant code again and again
 public abstract class RobotMaster {
-    protected static GameWindow game;
-    protected static Snake snake;
-    protected static Window window;
-    protected static ArrayList<Integer> snakeX;
-    protected static ArrayList<Integer> snakeY;
-    protected static int windowHeight;
-    protected static int windowWidth;
-    protected static int windowBlockSize;
-    protected static String snakeCurrentDirection;
+    protected GameWindow game;
+    protected Snake snake;
+    protected Window window;
+    protected Apple apple;
+    protected int appleX;
+    protected int appleY;
+    protected ArrayList<Integer> snakeX;
+    protected ArrayList<Integer> snakeY;
+    protected int windowHeight;
+    protected int windowWidth;
+    protected int windowBlockSize;
+    protected String snakeCurrentDirection;
 
-    private int framerate = 50;
+    private int framerate;
 
     //the constructor with the framerate has to always exist
     public RobotMaster(int framerate){
@@ -33,6 +37,7 @@ public abstract class RobotMaster {
         game = new GameWindow(framerate);
         snake = game.getSnakeObject();
         window = game.getWindowObject();
+        apple = game.getAppleObject();
 
         windowHeight = window.getWINDOW_HEIGHT();
         windowWidth = window.getWINDOW_WIDTH();

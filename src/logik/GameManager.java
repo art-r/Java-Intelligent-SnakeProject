@@ -31,6 +31,7 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     private ArrayList<Integer> snakeBodyPartsX;
     private ArrayList<Integer> snakeBodyPartsY;
     private String currentDirection;
+    private String newDirection = snake.getCurrentDirection();
 
     //we need these variables later when checking if the snake has hit itself
     private int headX;
@@ -81,10 +82,10 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     public void actionPerformed(ActionEvent e) {
         //only do this if the game is still running
         if (isRunning) {
-            //first check if all queued movements have been executed and if not execute it (we call with null...
+            //first check if all queued movements have been executed and if not execute it (we call with "null"...
             //...as we dont want to add another direction and only want to make the queue empty!)
             if (!movementSaver.isEmpty()) {
-                setSnakeDirection(null);
+                setSnakeDirection("null");
             }
             snake.move();
             //after the snake has moved, movement is no longer blocked
@@ -186,60 +187,66 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
         }
     }
 
-    //function to set the new snake direction (called by either the robot or by the keyevents)
+    //function to set the new snake direction (called by either the robot or by the key-events)
     public void setSnakeDirection(String newDirection) {
-        //if the snake has not yet executed the previous movement we need to add the new command to a queue...
-        //...and then dont do anything as otherwise we would change the direction of the snake before it has actually moved...
-        //...causing the snake to die immediately
-        if (movementIsBlocked){
-            //only save the newDirection value if it has been called by either a key or by a robot
-            //if the setSnakeDirection function is called automatically the new direction value will be null!
-            if (!(newDirection == null)) {
-                movementSaver.add(newDirection);
-            }
-        }
-        //if the movement is not blocked
-        else {
-            //first check if there are still movements to execute
-            if (!movementSaver.isEmpty()) {
+        //first of all we need to check that the new direction is not the same as the current direction...
+        //...as in this case we dont want to save this new command!
+        if (!(this.currentDirection.equals(newDirection))) {
+
+            //if the snake has not yet executed the previous movement we need to add the new command to a queue...
+            //...and then dont do anything as otherwise we would change the direction of the snake before it has actually moved...
+            //...causing the snake to die immediately
+            if (movementIsBlocked) {
                 //only save the newDirection value if it has been called by either a key or by a robot
-                //if the setSnakeDirection function is called automatically the new direction value will be null!
-                if (!(newDirection == null)) {
+                //if the setSnakeDirection function is called automatically the new direction value will be "null"!
+                if (!(newDirection.equals("null"))) {
                     movementSaver.add(newDirection);
                 }
-                newDirection = movementSaver.pop();
             }
-            //if the queue is already empty and the movement is not blocked the new direction will be executed directly
+            //if the movement is not blocked
+            else {
+                //first check if there are still movements to execute
+                if (!movementSaver.isEmpty()) {
+                    //only save the newDirection value if it has been called by either a key or by a robot
+                    //if the setSnakeDirection function is called automatically the new direction value will be "null"!
+                    if (!(newDirection.equals("null"))) {
+                        movementSaver.add(newDirection);
+                    }
+                    newDirection = movementSaver.pop();
+                }
+                //if the queue is already empty and the movement is not blocked the new direction will be executed directly
 
-            //now block movement again as we are executing the next movement command
-            //movement will be unblocked as soon as the snake has moved (see function actionPerformed above)
-            movementIsBlocked = true;
-            //get the current direction as we need to check for some certain unlogic movements
-            //(the snake cant move 'backwards' into itself!
-            currentDirection = snake.getCurrentDirection();
-            switch (newDirection) {
-                case "Left":
-                    if (!currentDirection.equals("Right")) {
-                        snake.setCurrentDirection("Left");
-                    }
-                    break;
-                case "Right":
-                    if (!currentDirection.equals("Left")) {
-                        snake.setCurrentDirection("Right");
-                    }
-                    break;
-                case "Up":
-                    if (!currentDirection.equals("Down")) {
-                        snake.setCurrentDirection("Up");
-                    }
-                    break;
-                case "Down":
-                    if (!currentDirection.equals("Up")) {
-                        snake.setCurrentDirection("Down");
-                    }
-                    break;
+                //now block movement again as we are executing the next movement command
+                //movement will be unblocked as soon as the snake has moved (see function actionPerformed above)
+                movementIsBlocked = true;
+                //get the current direction as we need to check for some certain unlogic movements
+                //(the snake cant move 'backwards' into itself!
+                currentDirection = snake.getCurrentDirection();
+                switch (newDirection) {
+                    case "Left":
+                        if (!currentDirection.equals("Right")) {
+                            snake.setCurrentDirection("Left");
+                        }
+                        break;
+                    case "Right":
+                        if (!currentDirection.equals("Left")) {
+                            snake.setCurrentDirection("Right");
+                        }
+                        break;
+                    case "Up":
+                        if (!currentDirection.equals("Down")) {
+                            snake.setCurrentDirection("Up");
+                        }
+                        break;
+                    case "Down":
+                        if (!currentDirection.equals("Up")) {
+                            snake.setCurrentDirection("Down");
+                        }
+                        break;
+                }
             }
         }
+
     }
 
     //here we implement the robot api functions (see interface RobotAPI in package ai for explanations)
@@ -265,7 +272,11 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     }
 
     @Override
-    public void robotMoveSnake(String newDirection) {
+    public void robotMoveSnake(String newDirectionCommand) {
+        //first set the current direction again as it is needed in the setSnakeDirection function
+        this.currentDirection = snake.getCurrentDirection();
+        //we dont pass the newDirection directly to the function for debugging purposes!
+        newDirection = newDirectionCommand;
         setSnakeDirection(newDirection);
     }
     //Implement RobotAPI <---END----|
@@ -276,7 +287,7 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
 
         @Override
         public void keyPressed(KeyEvent e) {
-            currentDirection = snake.getCurrentDirection();
+             currentDirection = snake.getCurrentDirection();
 
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
