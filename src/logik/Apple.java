@@ -26,6 +26,9 @@ public class Apple {
     //function to generate a new apple
     public void generateNewApple(ArrayList<Integer> forbiddenX, ArrayList<Integer> forbiddenY) {
         newAppleCheck = true;
+        //TODO: optimize this!
+        //create an array with the empty/available coordinates in the apple class and then get a random value from that list
+
         //generate a new apple and check if the new location of the apple is inside the snake (this is not allowed!)
         while (newAppleCheck) {
             //generate new coordinates for the apple
