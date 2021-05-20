@@ -5,7 +5,18 @@ import logik.GameManager;
 import logik.Snake;
 import logik.Window;
 
-//Current Highscore is 'only' 185 apples at framerate of 10
+
+/*
+This Robot works the following way:
+1. Move to the right side of the window
+2. Move downwards
+3. Move to the left and the upwards
+4. before reaching the very top of the possible blocks (on the 2nd last block) move left and down
+5. do 2.-4. until reaching the left side of the window then move upwards
+6. upon reaching the last possible block move to the right and then goto 1.
+*/
+
+
 public class SimpleRobot extends RobotMaster{
     //==> default code is implemented in RobotMaster <==
     //see RobotMaster for all the variables that are usable!

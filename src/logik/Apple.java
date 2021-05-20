@@ -38,9 +38,9 @@ public class Apple {
         //generate a new apple and check if the new location of the apple is inside the snake (this is not allowed!)
         while (newAppleCheck) {
             //generate new coordinates for the apple
-            xCoordinate = RANDOM_NUMBER_GENERATOR.nextInt(windowWidth / windowBoxSize) * windowBoxSize;
-            yCoordinate = RANDOM_NUMBER_GENERATOR.nextInt(windowHeight / windowBoxSize) * windowBoxSize;
 
+            xCoordinate = (int) (Math.random() * (windowWidth / windowBoxSize)) * windowBoxSize;
+            yCoordinate = (int) (Math.random() * (windowHeight / windowBoxSize)) * windowBoxSize;
 
             //in the beginning theres no snake so we dont have to check anything!
             //==> as the x and y coordinates of the snake grow equally we only have to check x here!

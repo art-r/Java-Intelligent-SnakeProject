@@ -5,6 +5,13 @@ import logik.GameManager;
 import logik.Snake;
 import logik.Window;
 
+
+/*
+This Robot works the following way:
+1. Move towards the apple (but only if the movements dont kill the snake)
+*/
+
+
 public class RobotV2 extends RobotMaster{
 
     public RobotV2(Snake snake, Window window, Apple apple, GameManager gameManager) {

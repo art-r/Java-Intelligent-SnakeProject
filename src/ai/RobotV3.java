@@ -5,6 +5,16 @@ import logik.GameManager;
 import logik.Snake;
 import logik.Window;
 
+/*
+This Robot works the following way:
+1. Move towards the apple (but only if the movements dont kill the snake)
+2. determine if the current direction is save or if it will kill the snake
+2.1 if the current direction is unsafe check the possible moves
+2.2 first check if it can go to the right/to the bottom or else do the opposite
+2.3 make the move and then go to 1. again in the next round
+*/
+
+
 public class RobotV3 extends RobotMaster {
     private int snakeHeadX;
     private int snakeHeadY;
@@ -42,7 +52,7 @@ public class RobotV3 extends RobotMaster {
         return pathClear;
     }
 
-    private void moveTowardsApple() {
+    protected void moveTowardsApple() {
         //move towards the apple
         //first match the x coordinate (but dont move if the direction change would kill the snake)
         //also dont do this if the movement is impossible as it would be 180 degree switch of movement

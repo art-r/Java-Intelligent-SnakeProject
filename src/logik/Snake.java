@@ -6,7 +6,6 @@ import java.util.ArrayList;
 public class Snake {
     private int appleCounter = 0;
     private String currentDirection = "Right"; // we start at the top left screen with a movement to the right
-    private Color currentColor = Color.green; //snake's head color
     private ArrayList<Integer> bodypartX = new ArrayList<>(); //array for the x-coordinates of the snake
     private ArrayList<Integer> bodypartY = new ArrayList<>(); //array for the y-coordinates of the snake
 
@@ -27,20 +26,12 @@ public class Snake {
         return appleCounter;
     }
 
-    public Color getCurrentColor() {
-        return currentColor;
-    }
-
     public ArrayList<Integer> getBodypartX() {
         return bodypartX;
     }
 
     public ArrayList<Integer> getBodypartY() {
         return bodypartY;
-    }
-
-    public void setCurrentColor(Color newColor) {
-        this.currentColor = newColor;
     }
 
     public void setCurrentDirection(String newDirection) {

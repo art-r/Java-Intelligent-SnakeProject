@@ -20,6 +20,7 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     private RobotMaster robot;
     private boolean robotIsControlling = true;
 
+
     //this is needed for the game to work (see explanation later on!)
     private boolean isRunning = false;
     private Timer swingActionEventTimer;
@@ -41,11 +42,11 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     private int bodyX;
     private int bodyY;
 
-    //the 'framerate' / speed of the game
+    //the 'framerate' or speed of the game
     private int framerate;
 
     //constructor
-    public GameManager(int framerate, String gameType) {
+    public GameManager(int framerate, String gameType, boolean randomSnakeColor) {
         //set the framerate
         this.framerate = framerate;
 
@@ -67,8 +68,8 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
                 break;
         }
 
-        //set the color of the snake
-        window.setSnakeColor(snake.getCurrentColor());
+        //tell the window if the snake color should be random
+        window.setSnakeRandomColor(randomSnakeColor);
 
         //set the window dimensions, background and properties
         this.setPreferredSize(new Dimension(window.getWINDOW_WIDTH(), window.getWINDOW_HEIGHT()));

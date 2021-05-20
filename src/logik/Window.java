@@ -3,6 +3,7 @@ package logik;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Window extends JPanel {
     //the window properties
@@ -20,13 +21,21 @@ public class Window extends JPanel {
     private int appleX;
     private int appleY;
 
-    //Variables to save the coordinates and the color of the snake
+    //Variables to save the coordinates and the color of the snake (or the random colors if appropriate)
     private ArrayList<Integer> snakeBodyPartX;
     private ArrayList<Integer> snakeBodyPartY;
-    private Color snakeCurrentColor;
+    private boolean discoColorSnake;
+    private Color snakeColor;
+    private ArrayList<Color> discoColors = new ArrayList<>();
 
-    //empty constructor
-    public Window() { }
+
+    //constructor (only create the disco-colors)
+    public Window() {
+        discoColors.add(Color.yellow);
+        discoColors.add(Color.red);
+        discoColors.add(Color.magenta);
+        discoColors.add(Color.cyan);
+    }
 
     //set the appleCoordinates (this is done by the game manager by calling the apples's generateApple function!)
     public void setAppleCoordinates(int appleX, int appleY) {
@@ -41,8 +50,8 @@ public class Window extends JPanel {
     }
 
     //set the snake color information
-    public void setSnakeColor(Color snakeColor) {
-        this.snakeCurrentColor = snakeColor;
+    public void setSnakeRandomColor(boolean discoColorSnake) {
+        this.discoColorSnake = discoColorSnake;
     }
 
     //default getter and setter
@@ -52,10 +61,6 @@ public class Window extends JPanel {
 
     public int getWINDOW_HEIGHT() {
         return WINDOW_HEIGHT;
-    }
-
-    public int getBOX_SIZE() {
-        return BOX_SIZE;
     }
 
     public int getBOXLENGTH() {
@@ -74,17 +79,32 @@ public class Window extends JPanel {
 
     //function to draw the snake
     public void drawSnake(Graphics g) {
-        //iterate over the snakes parts
-        for (int bodyPart = 0; bodyPart < snakeBodyPartX.size(); bodyPart++) {
-            //the color of the head
-            if (bodyPart == 0) {
-                g.setColor(snakeCurrentColor);
-            } else {
-                //the color of the body (a different green color)
-                g.setColor(new Color(45, 160, 0));
+        //check if the disco color flag for the snake has been set
+        if (discoColorSnake){
+            //create random colors for every part of the body
+            for(int bodypart = 0; bodypart < snakeBodyPartX.size(); bodypart++) {
+                if (bodypart == 0) {
+                    snakeColor = Color.green;
+                } else {
+                    snakeColor = discoColors.get((int) (Math.random() * 4));
+                }
+                g.setColor(snakeColor);
+                g.fillRect(snakeBodyPartX.get(bodypart), snakeBodyPartY.get(bodypart), BOXLENGTH, BOXLENGTH);
             }
-            //draw the parts with the appropriate color
-            g.fillRect(snakeBodyPartX.get(bodyPart), snakeBodyPartY.get(bodyPart), BOXLENGTH, BOXLENGTH);
+        } else{
+            //if the flag has not been set we want to color the snake just in the normal green values
+            //iterate over the snakes parts
+            for (int bodyPart = 0; bodyPart < snakeBodyPartX.size(); bodyPart++) {
+                //the color of the head
+                if (bodyPart == 0) {
+                    g.setColor(Color.green);
+                } else {
+                    //the color of the body (a different green color)
+                    g.setColor(new Color(45, 160, 0));
+                }
+                //draw the parts with the appropriate color
+                g.fillRect(snakeBodyPartX.get(bodyPart), snakeBodyPartY.get(bodyPart), BOXLENGTH, BOXLENGTH);
+            }
         }
     }
 

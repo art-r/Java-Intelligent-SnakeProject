@@ -22,7 +22,7 @@ public abstract class RobotMaster {
     protected String snakeCurrentDirection;
 
 
-    //the constructor with the framerate has to always exist
+    //the constructor with the objects that each robot needs
     public RobotMaster(Snake snake, Window window, Apple apple, GameManager game){
         this.snake = snake;
         this.window = window;

@@ -8,17 +8,34 @@ import javax.swing.*;
 public class GameWindow extends JFrame {
     //a variable to contain the game manager
     private GameManager gameManager;
+    private String gametype;
+    private String gameTitle;
 
     //the constructor must set the framerate and pass it to the gamemanager
-    public GameWindow(int framerate, String gameType){
-        gameManager = new GameManager(framerate, gameType);
+    public GameWindow(int framerate, String gameType, boolean randomSnakeColor){
+        gameManager = new GameManager(framerate, gameType, randomSnakeColor);
+        this.gametype = gameType;
     }
 
     //the start function for the game
     //it adds the game manager to the window, sets the title and the default properties
     public void runGame(){
         this.add(gameManager);
-        this.setTitle("Snake Game - by ASCSF"); //title
+
+        //set the title (and also include which version of the game is executed)
+        switch (gametype) {
+            case "RobotV1":
+            case "RobotV2":
+            case "RobotV3":
+            case "RobotV4":
+                gameTitle = gametype + " is running the game";
+                break;
+            default:
+                gameTitle = "Classic Mode";
+        }
+
+        this.setTitle("Snake Game - by ASCSF (" + gameTitle + ")");
+
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //default operation on close
         this.setResizable(false); //window must not be resizable!
         this.pack(); //layout of the window must be sized accordingly to the computers screen
