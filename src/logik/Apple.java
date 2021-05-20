@@ -17,20 +17,30 @@ public class Apple {
     // these variables are information from the window class (passed through the manager)
     private int windowHeight;
     private int windowBoxSize;
+    private int windowWidth;
+    private int numberOfBoxes;
 
-    public Apple(int windowHeight, int windowBoxSize) {
+    public Apple(int windowHeight, int windowWidth, int windowBoxSize, int numberOfBoxes) {
         this.windowHeight = windowHeight;
+        this.windowWidth = windowWidth;
         this.windowBoxSize = windowBoxSize;
+        this.numberOfBoxes = numberOfBoxes;
     }
 
     //function to generate a new apple
     public void generateNewApple(ArrayList<Integer> forbiddenX, ArrayList<Integer> forbiddenY) {
+        //only do this if the snake has not yet reached the maximum length!
+
+
         newAppleCheck = true;
+
+
         //generate a new apple and check if the new location of the apple is inside the snake (this is not allowed!)
         while (newAppleCheck) {
             //generate new coordinates for the apple
-            xCoordinate = RANDOM_NUMBER_GENERATOR.nextInt(windowHeight / windowBoxSize) * windowBoxSize;
+            xCoordinate = RANDOM_NUMBER_GENERATOR.nextInt(windowWidth / windowBoxSize) * windowBoxSize;
             yCoordinate = RANDOM_NUMBER_GENERATOR.nextInt(windowHeight / windowBoxSize) * windowBoxSize;
+
 
             //in the beginning theres no snake so we dont have to check anything!
             //==> as the x and y coordinates of the snake grow equally we only have to check x here!
