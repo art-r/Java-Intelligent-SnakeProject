@@ -15,7 +15,7 @@ import java.util.LinkedList;
 public class GameManager extends JPanel implements ActionListener, RobotAPI {
     //create the necessary objects
     private Window window = new Window();
-    private Snake snake = new Snake(window.getBOXLENGTH(), 365);
+    private Snake snake = new Snake(window.getBOXLENGTH(), 6);
     private Apple apple = new Apple(window.getWINDOW_HEIGHT(), window.getWINDOW_WIDTH(), window.getBOXLENGTH(), window.getNUMBER_OF_BOXES());
 
     //this is needed for the game to work (see explanation later on!)
