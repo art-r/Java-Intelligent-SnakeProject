@@ -1,11 +1,16 @@
 package ai;
 
-public class RobotV2 extends RobotMaster{
-    private int framerate;
+import logik.Apple;
+import logik.GameManager;
+import logik.Snake;
+import logik.Window;
 
-    public RobotV2(int framerate) {
-        super(framerate);
+public class RobotV2 extends RobotMaster{
+
+    public RobotV2(Snake snake, Window window, Apple apple, GameManager gameManager) {
+        super(snake, window, apple, gameManager);
     }
+
 
     @Override
     public void moveRobot(){
@@ -24,32 +29,30 @@ public class RobotV2 extends RobotMaster{
         //first match the x coordinate
         if (snakeX.get(0) > appleX){
             if (snakeCurrentDirection.equals("Right")){
-                game.robotMoveSnake("Down");
+                gamemanager.robotMoveSnake("Down");
             }
-            game.robotMoveSnake("Left");
+            gamemanager.robotMoveSnake("Left");
 
         } else if (snakeX.get(0) < appleX){
             if (snakeCurrentDirection.equals("Left")){
-                game.robotMoveSnake("Down");
+                gamemanager.robotMoveSnake("Down");
             }
-            game.robotMoveSnake("Right");
+            gamemanager.robotMoveSnake("Right");
 
         } else { //if (snakeX.get(0) == appleX)
             //then match the y coordinate
             if (snakeY.get(0) < appleY) {
                 if (snakeCurrentDirection.equals("Up")){
-                    game.robotMoveSnake("Right");
+                    gamemanager.robotMoveSnake("Right");
                 }
-                game.robotMoveSnake("Down");
+                gamemanager.robotMoveSnake("Down");
 
             } else if (snakeY.get(0) > appleY) {
                 if (snakeCurrentDirection.equals("Down")){
-                    game.robotMoveSnake("Right");
+                    gamemanager.robotMoveSnake("Right");
                 }
-                game.robotMoveSnake("Up");
+                gamemanager.robotMoveSnake("Up");
             }
         }
     }
-
-
 }

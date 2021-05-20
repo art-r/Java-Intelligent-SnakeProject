@@ -1,6 +1,6 @@
 package logik;
 
-import ai.RobotAPI;
+import ai.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +17,8 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     private Window window = new Window();
     private Snake snake = new Snake(window.getBOXLENGTH(), 6);
     private Apple apple = new Apple(window.getWINDOW_HEIGHT(), window.getWINDOW_WIDTH(), window.getBOXLENGTH(), window.getNUMBER_OF_BOXES());
+    private RobotMaster robot;
+    private boolean robotIsControlling = true;
 
     //this is needed for the game to work (see explanation later on!)
     private boolean isRunning = false;
@@ -43,9 +45,24 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     private int framerate;
 
     //constructor
-    public GameManager(int framerate) {
+    public GameManager(int framerate, String gameType) {
         //set the framerate
         this.framerate = framerate;
+
+        switch(gameType) {
+            case "RobotV1":
+                robot = new SimpleRobot(snake, window, apple , this);
+                break;
+            case "RobotV2":
+                robot = new RobotV2(snake, window, apple, this);
+                break;
+            case "RobotV3":
+                robot = new RobotV3(snake, window, apple, this);
+                break;
+            default:
+                robotIsControlling = false;
+                break;
+        }
 
         //set the color of the snake
         window.setSnakeColor(snake.getCurrentColor());
@@ -82,6 +99,9 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     public void actionPerformed(ActionEvent e) {
         //only do this if the game is still running
         if (isRunning) {
+            if (robotIsControlling) {
+                robot.moveRobot();
+            }
             //first check if all queued movements have been executed and if not execute it (we call with "null"...
             //...as we dont want to add another direction and only want to make the queue empty!)
             if (!movementSaver.isEmpty()) {
@@ -106,7 +126,7 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     }
 
     //draw elements function (draws snake & apple)
-    public void drawElements(Graphics g) {
+    private void drawElements(Graphics g) {
         //only draw these parts if the game is running!
         if (isRunning) {
             //the apple
@@ -143,7 +163,7 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     }
 
     //function to check if the snake has 'eaten' an apple
-    public void checkForApple() {
+    private void checkForApple() {
         //Check if the snake and apple coordinates match
         snakeBodyPartsX = snake.getBodypartX();
         snakeBodyPartsY = snake.getBodypartY();
@@ -155,7 +175,7 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     }
 
     //check if the snake should die
-    public void checkGameOver() {
+    private void checkGameOver() {
         snakeBodyPartsX = snake.getBodypartX();
         snakeBodyPartsY = snake.getBodypartY();
         //check if the snake has reached a border or has hit itself ==> game over!
@@ -207,9 +227,10 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     }
 
     //function to set the new snake direction (called by either the robot or by the key-events)
-    public void setSnakeDirection(String newDirection) {
+    private void setSnakeDirection(String newDirection) {
         //first of all we need to check that the new direction is not the same as the current direction...
         //...as in this case we dont want to save this new command!
+        this.currentDirection = snake.getCurrentDirection();
         if (!(this.currentDirection.equals(newDirection))) {
 
             //if the snake has not yet executed the previous movement we need to add the new command to a queue...
@@ -240,7 +261,7 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
                 movementIsBlocked = true;
                 //get the current direction as we need to check for some certain unlogic movements
                 //(the snake cant move 'backwards' into itself!
-                currentDirection = snake.getCurrentDirection();
+
                 switch (newDirection) {
                     case "Left":
                         if (!currentDirection.equals("Right")) {
@@ -265,37 +286,16 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
                 }
             }
         }
-
     }
 
     //here we implement the robot api functions (see interface RobotAPI in package ai for explanations)
     //Implement RobotAPI |---BEGIN---->
     @Override
-    public Snake getSnakeObject() {
-        return this.snake;
-    }
-
-    @Override
-    public Apple getAppleObject() {
-        return this.apple;
-    }
-
-    @Override
-    public Window getWindowObject() {
-        return this.window;
-    }
-
-    @Override
-    public boolean gameisRunning() {
-        return this.isRunning;
-    }
-
-    @Override
     public void robotMoveSnake(String newDirectionCommand) {
         //first set the current direction again as it is needed in the setSnakeDirection function
         this.currentDirection = snake.getCurrentDirection();
         //we dont pass the newDirection directly to the function for debugging purposes!
-        newDirection = newDirectionCommand;
+        this.newDirection = newDirectionCommand;
         setSnakeDirection(newDirection);
     }
     //Implement RobotAPI <---END----|

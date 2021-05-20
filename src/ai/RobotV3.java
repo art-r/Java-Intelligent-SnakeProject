@@ -1,5 +1,10 @@
 package ai;
 
+import logik.Apple;
+import logik.GameManager;
+import logik.Snake;
+import logik.Window;
+
 public class RobotV3 extends RobotMaster {
     private int snakeHeadX;
     private int snakeHeadY;
@@ -7,26 +12,109 @@ public class RobotV3 extends RobotMaster {
     private int potentialNewHeadY;
     private boolean pathClear;
 
-    public RobotV3(int framerate) {
-        super(framerate);
+    //these values are needed for checking the path
+    private int snakePartX;
+    private int snakePartY;
+
+    public RobotV3(Snake snake, Window window, Apple apple, GameManager gameManager) {
+        super(snake, window, apple, gameManager);
     }
 
 
     private boolean pathIsClear() {
         pathClear = true;
+        if ((potentialNewHeadX < 0) || (potentialNewHeadX == windowWidth)) {
+            return pathClear = false;
+        }
+
+        if ((potentialNewHeadY < 0) || (potentialNewHeadY == windowHeight)) {
+            return pathClear = false;
+        }
+
         for (int bodyPart = (snakeX.size() - 1); bodyPart > 0; bodyPart--) {
-            if ((potentialNewHeadX == snakeX.get(bodyPart)) && (potentialNewHeadY == snakeY.get(bodyPart))) {
-                pathClear = false;
-                break;
+            snakePartX = snakeX.get(bodyPart);
+            snakePartY = snakeY.get(bodyPart);
+            if ((potentialNewHeadX == snakePartX) && (potentialNewHeadY == snakePartY)) {
+                return pathClear = false;
             }
         }
-        if ((potentialNewHeadX < 0) || (potentialNewHeadX == windowWidth)) {
-            pathClear = false;
-        }
-        if ((potentialNewHeadY < 0 ) || (potentialNewHeadY == windowHeight)) {
-            pathClear = false;
-        }
         return pathClear;
+    }
+
+    private void moveTowardsApple() {
+        //move towards the apple
+        //first match the x coordinate (but dont move if the direction change would kill the snake)
+        //also dont do this if the movement is impossible as it would be 180 degree switch of movement
+        if ((snakeX.get(0) > appleX) && (!snakeCurrentDirection.equals("Right"))) {
+            potentialNewHeadX = (snakeHeadX - windowBlockSize);
+            potentialNewHeadY = snakeHeadY;
+            if (pathIsClear()) {
+                gamemanager.robotMoveSnake("Left");
+            }
+
+        } else if ((snakeX.get(0) < appleX) && (!snakeCurrentDirection.equals("Left"))) {
+            potentialNewHeadX = (snakeHeadX + windowBlockSize);
+            potentialNewHeadY = snakeHeadY;
+            if (pathIsClear()) {
+                gamemanager.robotMoveSnake("Right");
+            }
+
+        } else { //if (snakeX.get(0) == appleX)
+            //then match the y coordinate (but dont move if the direction change would kill the snake)
+            if ((snakeY.get(0) < appleY) && (!snakeCurrentDirection.equals("Up"))) {
+                potentialNewHeadX = snakeHeadX;
+                potentialNewHeadY = (snakeHeadY + windowBlockSize);
+                if (pathIsClear()) {
+                    gamemanager.robotMoveSnake("Down");
+                }
+
+            } else if ((snakeY.get(0) > appleY) && (!snakeCurrentDirection.equals("Down"))) {
+                potentialNewHeadX = snakeHeadX;
+                potentialNewHeadY = (snakeHeadY - windowBlockSize);
+                if (pathIsClear()) {
+                    gamemanager.robotMoveSnake("Up");
+                }
+            }
+        }
+    }
+
+    private void checkLeftAndRight() {
+        if (!pathIsClear()) {
+            //check if the snake should either move right or left now
+            potentialNewHeadX = (snakeHeadX + windowBlockSize);
+            potentialNewHeadY = snakeHeadY;
+            if (pathIsClear()) {
+                gamemanager.robotMoveSnake("Right");
+            } else {
+                potentialNewHeadX = (snakeHeadX - windowBlockSize);
+                potentialNewHeadY = snakeHeadY;
+                if (pathIsClear()) {
+                    gamemanager.robotMoveSnake("Left");
+                }
+            }
+        } else {
+            moveTowardsApple();
+        }
+    }
+
+    private void checkUpAndDown() {
+        if (!pathIsClear()) {
+            //if the path is not clear check if the snake should either move down or up
+            potentialNewHeadX = snakeHeadX;
+            potentialNewHeadY = (snakeHeadY + windowBlockSize);
+            if (pathIsClear()) {
+                gamemanager.robotMoveSnake("Down");
+            } else {
+                potentialNewHeadX = snakeHeadX;
+                potentialNewHeadY = (snakeHeadY - windowBlockSize);
+                if(pathIsClear()) {
+                    gamemanager.robotMoveSnake("Up");
+                }
+            }
+        } else {
+            //if the path is clear move towards the apple
+            moveTowardsApple();
+        }
     }
 
 
@@ -47,99 +135,33 @@ public class RobotV3 extends RobotMaster {
         appleX = apple.getxCoordinate();
         appleY = apple.getyCoordinate();
 
-        //move towards the apple
-        //first match the x coordinate (but dont move if the direction change would kill the snake)
-        //also dont do this if the movement is impossible as it would be 180 degree switch of movement
-        if ((snakeX.get(0) > appleX) && (!snakeCurrentDirection.equals("Right"))) {
+
+        //check if the current direction will kill the snake if it continues and then move towards the apple
+        if (snakeCurrentDirection.equals("Left")) {
             potentialNewHeadX = (snakeHeadX - windowBlockSize);
             potentialNewHeadY = snakeHeadY;
-            if (pathIsClear()) {
-                game.robotMoveSnake("Left");
-            }
+            //if the snake moves left and its way is blocked by itself or a border...
+            //...check if it can avoid the collision by moving up or down (see function checkUpAndDown)
+            checkUpAndDown();
 
-        } else if ((snakeX.get(0) < appleX) && (!snakeCurrentDirection.equals("Left"))) {
+        } else if (snakeCurrentDirection.equals("Right")) {
             potentialNewHeadX = (snakeHeadX + windowBlockSize);
             potentialNewHeadY = snakeHeadY;
-            if (pathIsClear()) {
-                game.robotMoveSnake("Right");
-            }
-
-        } else { //if (snakeX.get(0) == appleX)
-            //then match the y coordinate (but dont move if the direction change would kill the snake)
-            if ((snakeY.get(0) < appleY) && (!snakeCurrentDirection.equals("Up"))) {
-                potentialNewHeadX = snakeHeadX;
-                potentialNewHeadY = (snakeHeadY + windowBlockSize);
-                if (pathIsClear()) {
-                    game.robotMoveSnake("Down");
-                }
-
-            } else if ((snakeY.get(0) > appleY) && (!snakeCurrentDirection.equals("Down"))) {
-                potentialNewHeadX = snakeHeadX;
-                potentialNewHeadY = (snakeHeadY - windowBlockSize);
-                if (pathIsClear()) {
-                    game.robotMoveSnake("Up");
-                }
-            }
-        }
-
-        //now check if the current direction will kill the snake if it continues
-
-        if (snakeCurrentDirection == "Left") {
-            potentialNewHeadX = (snakeHeadX - windowBlockSize);
-            potentialNewHeadY = snakeHeadY;
-            //if the snake moves left and its way is blocked by itself or a border
-            if (!pathIsClear()) {
-                //check if the snake should either move down or up now
-                potentialNewHeadX = snakeHeadX;
-                potentialNewHeadY = (snakeHeadY + windowBlockSize);
-                if (pathIsClear()) {
-                    game.robotMoveSnake("Down");
-                } else {
-                    game.robotMoveSnake("Up");
-                }
-            }
-        } else if (snakeCurrentDirection == "Right") {
-            potentialNewHeadX = (snakeHeadX + windowBlockSize);
-            potentialNewHeadY = snakeHeadY;
-            //if the snake moves right and its way is blocked by itself or a border
-            if (!pathIsClear()) {
-                //check if the snake should either move down or up now
-                potentialNewHeadX = snakeHeadX;
-                potentialNewHeadY = (snakeHeadY + windowBlockSize);
-                if (pathIsClear()) {
-                    game.robotMoveSnake("Down");
-                } else {
-                    game.robotMoveSnake("Up");
-                }
-            }
-        } else if (snakeCurrentDirection == "Down") {
+            //if the snake moves right and its way is blocked by itself or a border...
+            //...check if it can avoid the collision by moving up or down (see function checkUpAndDown)
+            checkUpAndDown();
+        } else if (snakeCurrentDirection.equals("Down")) {
             potentialNewHeadX = snakeHeadX;
             potentialNewHeadY = (snakeHeadY + windowBlockSize);
-            //if the snake moves down and its way is blocked by itself or a border
-            if (!pathIsClear()) {
-                //check if the snake should either move right or left now
-                potentialNewHeadX = (snakeHeadX + windowBlockSize);
-                potentialNewHeadY = snakeHeadY;
-                if (pathIsClear()) {
-                    game.robotMoveSnake("Right");
-                } else {
-                    game.robotMoveSnake("Left");
-                }
-            }
-        } else if (snakeCurrentDirection == "Up") {
+            //if the snake moves down and its way is blocked by itself or a border...
+            //...check if it can avoid the collision by moving right or left (see function checkLeftAndRight)
+            checkLeftAndRight();
+        } else if (snakeCurrentDirection.equals("Up")) {
             potentialNewHeadX = snakeHeadX;
             potentialNewHeadY = (snakeHeadY - windowBlockSize);
-            //if the snake moves up and its way is blocked by itself or a border
-            if (!pathIsClear()) {
-                //check if the snake should either move right or left now
-                potentialNewHeadX = (snakeHeadX + windowBlockSize);
-                potentialNewHeadY = snakeHeadY;
-                if (pathIsClear()) {
-                    game.robotMoveSnake("Right");
-                } else {
-                    game.robotMoveSnake("Left");
-                }
-            }
+            //if the snake moves up and its way is blocked by itself or a border...
+            //...check if it can avoid the collision by moving right or left (see function checkLeftAndRight)
+            checkLeftAndRight();
         }
     }
 }

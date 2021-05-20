@@ -10,21 +10,10 @@ import logik.GameWindow;
 //the main function to run the game
 public class SnakeGame {
     public static void main(String[] args) {
-        //create a classic snake game (where the user has to play)
-        //GameWindow classicSnake = new GameWindow(150);
-        //create a robot snake game (where the computer plays)
-        //this is robotOne
-        RobotMaster robotOne = new SimpleRobot(40);
-        //RobotMaster robotTwo = new RobotV2(150);
-        //RobotMaster robotThree = new RobotV3(150);
+        //create the game and pass along the framerate and the gametype (empty String = classic game, RobotV1, RobotV2, RobotV3)
+        GameWindow classicSnake = new GameWindow(5, "RobotV1");
+
         //run the game
-
-        //the classic game (uncomment to run the classic game)
-        //classicSnake.runClassicGame();
-
-        //the robot (uncomment to run the robot game)
-        robotOne.runRobot();
-        //robotTwo.runRobot();
-        //robotThree.runRobot();
+        classicSnake.runGame();
     }
 }

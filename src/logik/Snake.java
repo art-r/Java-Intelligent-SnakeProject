@@ -39,16 +39,16 @@ public class Snake {
         return bodypartY;
     }
 
-    public void setCurrentColor(Color EntercurrentColor) {
-        currentColor = EntercurrentColor;
+    public void setCurrentColor(Color newColor) {
+        this.currentColor = newColor;
     }
 
-    public void setCurrentDirection(String EntercurrentDirection) {
-        currentDirection = EntercurrentDirection;
+    public void setCurrentDirection(String newDirection) {
+        this.currentDirection = newDirection;
     }
 
     public String getCurrentDirection() {
-        return currentDirection;
+        return this.currentDirection;
     }
 
     //function to eat an apple => snake has to grow
