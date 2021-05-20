@@ -62,6 +62,10 @@ public class Window extends JPanel {
         return BOXLENGTH;
     }
 
+    public int getNUMBER_OF_BOXES() {
+        return NUMBER_OF_BOXES;
+    }
+
     //function to draw the apple
     public void drawApple(Graphics g) {
         g.setColor(Color.red);
@@ -107,5 +111,21 @@ public class Window extends JPanel {
         g.setFont(new Font("Ink Free", Font.BOLD, 75));
         FontMetrics metrics2 = getFontMetrics(g.getFont());
         g.drawString("Game Over", (WINDOW_WIDTH - metrics2.stringWidth("Game Over")) / 2, WINDOW_HEIGHT / 2);
+    }
+
+
+    //draw the game succeeded screen
+    public void drawGameWon(Graphics g, int applesEaten) {
+        //draw the reached score
+        g.setColor(Color.GREEN);
+        g.setFont(new Font("Ink Free", Font.BOLD, 40));
+        FontMetrics metrics1 = getFontMetrics(g.getFont());
+        g.drawString("Reached Score: " + applesEaten, (WINDOW_WIDTH - metrics1.stringWidth("Reached Score: " + applesEaten)) / 2, g.getFont().getSize());
+
+        //draw the game over text
+        g.setColor(Color.red);
+        g.setFont(new Font("Ink Free", Font.BOLD, 75));
+        FontMetrics metrics2 = getFontMetrics(g.getFont());
+        g.drawString("CHEATER! (YOU WON)", (WINDOW_WIDTH - metrics2.stringWidth("CHEATER! (YOU WON)")) / 2, WINDOW_HEIGHT / 2);
     }
 }

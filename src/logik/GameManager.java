@@ -15,8 +15,8 @@ import java.util.LinkedList;
 public class GameManager extends JPanel implements ActionListener, RobotAPI {
     //create the necessary objects
     private Window window = new Window();
-    private Snake snake = new Snake(window.getBOXLENGTH(), 240);
-    private Apple apple = new Apple(window.getWINDOW_HEIGHT(), window.getBOXLENGTH());
+    private Snake snake = new Snake(window.getBOXLENGTH(), 365);
+    private Apple apple = new Apple(window.getWINDOW_HEIGHT(), window.getWINDOW_WIDTH(), window.getBOXLENGTH(), window.getNUMBER_OF_BOXES());
 
     //this is needed for the game to work (see explanation later on!)
     private boolean isRunning = false;
@@ -113,6 +113,7 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
             window.setAppleCoordinates(apple.getxCoordinate(), apple.getyCoordinate());
             window.drawApple(g);
 
+
             //the snake
             snakeBodyPartsX = snake.getBodypartX();
             snakeBodyPartsY = snake.getBodypartY();
@@ -122,9 +123,22 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
             //the current score
             window.drawCurrentScore(g, snake.getAppleCounter());
         }
-        //if the game is not running this means that we should print a game over sign!
+        //if the game is not running this means that we should print a game over or 'game succeeded' sign!
         else {
-            window.drawGameOver(g, snake.getAppleCounter());
+            try {
+                Thread.sleep(1000);
+                if (snakeBodyPartsX.size() == window.getNUMBER_OF_BOXES()) {
+                    window.drawGameWon(g, snake.getAppleCounter());
+                } else {
+                    window.drawGameOver(g, snake.getAppleCounter());
+                }
+            } catch (InterruptedException e) {
+                if (snakeBodyPartsX.size() == window.getNUMBER_OF_BOXES()) {
+                    window.drawGameWon(g, snake.getAppleCounter());
+                } else {
+                    window.drawGameOver(g, snake.getAppleCounter());
+                }
+            }
         }
     }
 
@@ -179,6 +193,11 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
                 isRunning = false;
                 break;
             }
+        }
+
+        //check if the game has been won
+        if (snakeBodyPartsX.size() == window.getNUMBER_OF_BOXES()) {
+            isRunning = false;
         }
 
         //if the game is no longer running stop the swing timer
@@ -287,7 +306,7 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
 
         @Override
         public void keyPressed(KeyEvent e) {
-             currentDirection = snake.getCurrentDirection();
+            currentDirection = snake.getCurrentDirection();
 
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
