@@ -11,7 +11,7 @@ import logik.GameWindow;
 public class SnakeGame {
     public static void main(String[] args) {
         //create the game and pass along the framerate and the gametype (empty String = classic game, RobotV1, RobotV2, RobotV3)
-        GameWindow classicSnake = new GameWindow(5, "RobotV1");
+        GameWindow classicSnake = new GameWindow(10, "RobotV4");
 
         //run the game
         classicSnake.runGame();

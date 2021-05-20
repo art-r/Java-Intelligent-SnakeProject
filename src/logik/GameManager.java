@@ -59,6 +59,9 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
             case "RobotV3":
                 robot = new RobotV3(snake, window, apple, this);
                 break;
+            case "RobotV4":
+                robot = new RobotV4(snake, window, apple, this);
+                break;
             default:
                 robotIsControlling = false;
                 break;

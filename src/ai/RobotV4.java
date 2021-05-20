@@ -5,19 +5,22 @@ import logik.GameManager;
 import logik.Snake;
 import logik.Window;
 
-public class RobotV3 extends RobotMaster {
+public class RobotV4 extends RobotMaster {
     private int snakeHeadX;
     private int snakeHeadY;
     private int potentialNewHeadX;
+    private int potentialNewHeadXR;
     private int potentialNewHeadY;
+    private int potentialNewHeadYU;
     private boolean pathClear;
-
+    private boolean noCollision;
+    private int noCollisionCounter;
 
     //these values are needed for checking the path
     private int snakePartX;
     private int snakePartY;
 
-    public RobotV3(Snake snake, Window window, Apple apple, GameManager gameManager) {
+    public RobotV4(Snake snake, Window window, Apple apple, GameManager gameManager) {
         super(snake, window, apple, gameManager);
     }
 
@@ -79,20 +82,50 @@ public class RobotV3 extends RobotMaster {
         }
     }
 
+    private boolean checkDirection(int directionX, int directionY){
+        if ((directionX < 0) || (directionX == windowWidth)) {
+            return false;
+        }
+
+        if ((directionY < 0) || (directionY == windowHeight)) {
+            return false;
+        }
+
+        for (int bodyPart = (snakeX.size() - 1); bodyPart > 0; bodyPart--) {
+            snakePartX = snakeX.get(bodyPart);
+            snakePartY = snakeY.get(bodyPart);
+            if ((directionX == snakePartX) && (directionY == snakePartY)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     private void checkLeftAndRight() {
-        if (!pathIsClear()) {
-            //check if the snake should either move right or left now
-            potentialNewHeadX = (snakeHeadX + windowBlockSize);
-            potentialNewHeadY = snakeHeadY;
-            if (pathIsClear()) {
-                gamemanager.robotMoveSnake("Right");
-            } else {
-                potentialNewHeadX = (snakeHeadX - windowBlockSize);
+        noCollision = true;
+        noCollisionCounter = 1;
+        boolean noCollisionRight;
+        boolean noCollisionLeft;
+        if(!pathIsClear()) {
+            while (noCollision) {
+                potentialNewHeadX = (snakeHeadX - (windowBlockSize * noCollisionCounter));
+                potentialNewHeadXR = (snakeHeadX + (windowBlockSize) * noCollisionCounter);
                 potentialNewHeadY = snakeHeadY;
-                if (pathIsClear()) {
+
+                noCollisionRight = checkDirection(potentialNewHeadXR, potentialNewHeadY);
+                noCollisionLeft = checkDirection(potentialNewHeadX, potentialNewHeadY);
+
+                if ((!noCollisionLeft) && noCollisionRight) {
+                    gamemanager.robotMoveSnake("Right");
+                    break;
+                } else if ((!noCollisionRight) && noCollisionLeft) {
                     gamemanager.robotMoveSnake("Left");
+                    break;
+                } else if (noCollisionCounter == (windowWidth / windowBlockSize)) {
+                    gamemanager.robotMoveSnake("Right");
+                    break;
                 }
+                noCollisionCounter++;
             }
         } else {
             moveTowardsApple();
@@ -100,22 +133,34 @@ public class RobotV3 extends RobotMaster {
     }
 
     private void checkUpAndDown() {
-        if (!pathIsClear()) {
-            //if the path is not clear check if the snake should either move down or up
-            potentialNewHeadX = snakeHeadX;
-            potentialNewHeadY = (snakeHeadY + windowBlockSize);
+        noCollision = true;
+        noCollisionCounter = 1;
+        boolean noCollisionUp;
+        boolean noCollisionDown;
 
-            if (pathIsClear()) {
-                gamemanager.robotMoveSnake("Down");
-            } else {
+        if(!pathIsClear()) {
+
+            while (noCollision) {
                 potentialNewHeadX = snakeHeadX;
-                potentialNewHeadY = (snakeHeadY - windowBlockSize);
-                if(pathIsClear()) {
+                potentialNewHeadY = (snakeHeadY - (windowBlockSize * noCollisionCounter));
+                potentialNewHeadYU = (snakeHeadY + (windowBlockSize * noCollisionCounter));
+
+                noCollisionUp = checkDirection(potentialNewHeadX, potentialNewHeadY);
+                noCollisionDown = checkDirection(potentialNewHeadX, potentialNewHeadYU);
+
+                if ((!noCollisionUp) && noCollisionDown) {
+                    gamemanager.robotMoveSnake("Down");
+                    break;
+                } else if ((!noCollisionDown) && noCollisionUp) {
                     gamemanager.robotMoveSnake("Up");
+                    break;
+                } else if (noCollisionCounter == (windowHeight / windowBlockSize)) {
+                    gamemanager.robotMoveSnake("Down");
+                    break;
                 }
+                noCollisionCounter++;
             }
         } else {
-            //if the path is clear move towards the apple
             moveTowardsApple();
         }
     }
