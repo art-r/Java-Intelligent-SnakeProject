@@ -24,5 +24,7 @@ public class SnakeGame {
 
         //runs the settings
         Settings settings = new Settings();
+        //5 unplayable
+        //Möglichkeit zum starten hinzufügen
     }
 }
