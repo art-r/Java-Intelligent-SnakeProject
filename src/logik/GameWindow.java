@@ -39,7 +39,7 @@ public class GameWindow extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //default operation on close
         this.setResizable(false); //window must not be resizable!
         this.pack(); //layout of the window must be sized accordingly to the computers screen
-        this.setVisible(true); //show the window (we want to see our game actually ^^^
+        this.setVisible(true); //show the window (we want to see our game actually ^^
         this.setLocationRelativeTo(null); //window should be in the center of the screen
     }
 }

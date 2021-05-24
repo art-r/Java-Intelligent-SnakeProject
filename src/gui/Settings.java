@@ -30,7 +30,6 @@ public class Settings implements ChangeListener, ActionListener {
     Path settingsfile;
 
     public Settings(){
-
         //initialize swing components
         frame = new JFrame("Settings");
         panel = new JPanel();
@@ -39,16 +38,23 @@ public class Settings implements ChangeListener, ActionListener {
         slider = new JSlider(1,5,1);
         labelSchwierigkeit = new JLabel();
 
+        //layout stuff
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //default operation on close
+        frame.setResizable(false); //window must not be resizable!
+        frame.pack(); //layout of the window must be sized accordingly to the computers screen
+        frame.setVisible(true); //show the window (we want to see our game actually ^^
+        frame.setLocationRelativeTo(null); //window should be in the center of the screen
+
         //create labelModusAuswahl
-        labelModusAuswahl.setText("Wähle hier deine gewünschten Farbkonstellation aus:");
+        labelModusAuswahl.setText("Choose snake color:");
         labelModusAuswahl.setBackground(Color.black);
         labelModusAuswahl.setForeground(Color.red);
 
         // create radiobuttons
-        normalButton = new JRadioButton("normaler Modus");
+        normalButton = new JRadioButton("normal snake color (green)");
         normalButton.setBackground(Color.BLACK);
         normalButton.setForeground(Color.GREEN);
-        regenbogenButton = new JRadioButton("Regenbogen Modus");
+        regenbogenButton = new JRadioButton("rainbow snake");
         regenbogenButton.setBackground(Color.BLACK);
         regenbogenButton.setForeground(Color.GREEN);
 
@@ -63,7 +69,7 @@ public class Settings implements ChangeListener, ActionListener {
 
 
         //set labeltext for difficulty
-        labelSchwierigkeit.setText("Wähle hier deinen gewünschten Schwiereigkeitsgrad aus:");
+        labelSchwierigkeit.setText("Choose difficulty:");
         labelSchwierigkeit.setBackground(Color.BLACK);
         labelSchwierigkeit.setForeground(Color.red);
 
@@ -82,7 +88,7 @@ public class Settings implements ChangeListener, ActionListener {
         slider.setPaintLabels(true);
 
         //sets the label text
-        label.setText("Schwierigkeit: einfach");
+        label.setText("Easy");
         label.setBackground(Color.BLACK);
         label.setForeground(Color.GREEN);
 
@@ -90,7 +96,7 @@ public class Settings implements ChangeListener, ActionListener {
         slider.addChangeListener(this);
 
         //add button to start game
-        buttonStart = new JButton("Spiel starten");
+        buttonStart = new JButton("Start Game");
         buttonStart.setBackground(Color.BLACK);
         buttonStart.setForeground(Color.red);
 
@@ -108,13 +114,17 @@ public class Settings implements ChangeListener, ActionListener {
         frame.setVisible(true);
 
 
-        //check the path for csv file
+        //check for an existing settings.csv file and read it if it exists
+        //if it does not exist create it but dont read its content (as it is empty)
         settingsfile = Paths.get("src/gui/Settings.csv");
         try{
-            if (!Files.exists(settingsfile))
+            if (!Files.exists(settingsfile)) {
                 Files.createFile(settingsfile);
+                regenbogenButton.setSelected(false);
+                normalButton.setSelected(true);
+            }
             else {
-                lesen();
+                readAndSetSettings();
             }
         } catch (IOException e){
             e.printStackTrace();
@@ -138,7 +148,7 @@ public class Settings implements ChangeListener, ActionListener {
     boolean farbe;
 
     //reading method to read the csv file
-    public void lesen(){
+    public void readAndSetSettings(){
         try {
             BufferedReader meinReader = Files.newBufferedReader(settingsfile);
             String[] zeile = meinReader.readLine().split(",");
@@ -176,19 +186,19 @@ public class Settings implements ChangeListener, ActionListener {
     @Override
     public void stateChanged(ChangeEvent e) {
         if(slider.getValue()==1){
-            label.setText("Schwierigkeit: einfach");
+            label.setText("Easy");
             framerate=200;
         } else if(slider.getValue()==2){
-            label.setText("Schwierigkeit: mittel");
+            label.setText("Intermediate");
             framerate=100;
         } else if(slider.getValue()==3){
-            label.setText("Schwierigkeit: schwer");
+            label.setText("Expert (hard)");
             framerate=50;
         } else if(slider.getValue()==4){
-            label.setText("Schwierigkeit: boss mode");
+            label.setText("Boss Mode");
             framerate=25;
         } else if(slider.getValue()==5){
-            label.setText("Schwierigkeit: unplayable");
+            label.setText("Unplayable");
             framerate=2;
         }
 
