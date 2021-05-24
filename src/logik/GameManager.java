@@ -1,6 +1,6 @@
 package logik;
 
-import ai.RobotAPI;
+import ai.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +16,10 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     //create the necessary objects
     private Window window = new Window();
     private Snake snake = new Snake(window.getBOXLENGTH(), 6);
-    private Apple apple = new Apple(window.getWINDOW_HEIGHT(), window.getBOXLENGTH());
+    private Apple apple = new Apple(window.getWINDOW_HEIGHT(), window.getWINDOW_WIDTH(), window.getBOXLENGTH(), window.getNUMBER_OF_BOXES());
+    private RobotMaster robot;
+    private boolean robotIsControlling = true;
+
 
     //this is needed for the game to work (see explanation later on!)
     private boolean isRunning = false;
@@ -31,6 +34,7 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     private ArrayList<Integer> snakeBodyPartsX;
     private ArrayList<Integer> snakeBodyPartsY;
     private String currentDirection;
+    private String newDirection = snake.getCurrentDirection();
 
     //we need these variables later when checking if the snake has hit itself
     private int headX;
@@ -38,16 +42,34 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     private int bodyX;
     private int bodyY;
 
-    //the 'framerate' / speed of the game
+    //the 'framerate' or speed of the game
     private int framerate;
 
     //constructor
-    public GameManager(int framerate) {
+    public GameManager(int framerate, String gameType, boolean randomSnakeColor) {
         //set the framerate
         this.framerate = framerate;
 
-        //set the color of the snake
-        window.setSnakeColor(snake.getCurrentColor());
+        switch(gameType) {
+            case "RobotV1":
+                robot = new SimpleRobot(snake, window, apple , this);
+                break;
+            case "RobotV2":
+                robot = new RobotV2(snake, window, apple, this);
+                break;
+            case "RobotV3":
+                robot = new RobotV3(snake, window, apple, this);
+                break;
+            case "RobotV4":
+                robot = new RobotV4(snake, window, apple, this);
+                break;
+            default:
+                robotIsControlling = false;
+                break;
+        }
+
+        //tell the window if the snake color should be random
+        window.setSnakeRandomColor(randomSnakeColor);
 
         //set the window dimensions, background and properties
         this.setPreferredSize(new Dimension(window.getWINDOW_WIDTH(), window.getWINDOW_HEIGHT()));
@@ -81,10 +103,13 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     public void actionPerformed(ActionEvent e) {
         //only do this if the game is still running
         if (isRunning) {
-            //first check if all queued movements have been executed and if not execute it (we call with null...
+            if (robotIsControlling) {
+                robot.moveRobot();
+            }
+            //first check if all queued movements have been executed and if not execute it (we call with "null"...
             //...as we dont want to add another direction and only want to make the queue empty!)
             if (!movementSaver.isEmpty()) {
-                setSnakeDirection(null);
+                setSnakeDirection("null");
             }
             snake.move();
             //after the snake has moved, movement is no longer blocked
@@ -105,12 +130,13 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     }
 
     //draw elements function (draws snake & apple)
-    public void drawElements(Graphics g) {
+    private void drawElements(Graphics g) {
         //only draw these parts if the game is running!
         if (isRunning) {
             //the apple
             window.setAppleCoordinates(apple.getxCoordinate(), apple.getyCoordinate());
             window.drawApple(g);
+
 
             //the snake
             snakeBodyPartsX = snake.getBodypartX();
@@ -121,14 +147,27 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
             //the current score
             window.drawCurrentScore(g, snake.getAppleCounter());
         }
-        //if the game is not running this means that we should print a game over sign!
+        //if the game is not running this means that we should print a game over or 'game succeeded' sign!
         else {
-            window.drawGameOver(g, snake.getAppleCounter());
+            try {
+                Thread.sleep(1000);
+                if (snakeBodyPartsX.size() == window.getNUMBER_OF_BOXES()) {
+                    window.drawGameWon(g, snake.getAppleCounter());
+                } else {
+                    window.drawGameOver(g, snake.getAppleCounter());
+                }
+            } catch (InterruptedException e) {
+                if (snakeBodyPartsX.size() == window.getNUMBER_OF_BOXES()) {
+                    window.drawGameWon(g, snake.getAppleCounter());
+                } else {
+                    window.drawGameOver(g, snake.getAppleCounter());
+                }
+            }
         }
     }
 
     //function to check if the snake has 'eaten' an apple
-    public void checkForApple() {
+    private void checkForApple() {
         //Check if the snake and apple coordinates match
         snakeBodyPartsX = snake.getBodypartX();
         snakeBodyPartsY = snake.getBodypartY();
@@ -140,7 +179,7 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     }
 
     //check if the snake should die
-    public void checkGameOver() {
+    private void checkGameOver() {
         snakeBodyPartsX = snake.getBodypartX();
         snakeBodyPartsY = snake.getBodypartY();
         //check if the snake has reached a border or has hit itself ==> game over!
@@ -180,64 +219,75 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
             }
         }
 
+        //check if the game has been won
+        if (snakeBodyPartsX.size() == window.getNUMBER_OF_BOXES()) {
+            isRunning = false;
+        }
+
         //if the game is no longer running stop the swing timer
         if (!isRunning) {
             swingActionEventTimer.stop();
         }
     }
 
-    //function to set the new snake direction (called by either the robot or by the keyevents)
-    public void setSnakeDirection(String newDirection) {
-        //if the snake has not yet executed the previous movement we need to add the new command to a queue...
-        //...and then dont do anything as otherwise we would change the direction of the snake before it has actually moved...
-        //...causing the snake to die immediately
-        if (movementIsBlocked){
-            //only save the newDirection value if it has been called by either a key or by a robot
-            //if the setSnakeDirection function is called automatically the new direction value will be null!
-            if (!(newDirection == null)) {
-                movementSaver.add(newDirection);
-            }
-        }
-        //if the movement is not blocked
-        else {
-            //first check if there are still movements to execute
-            if (!movementSaver.isEmpty()) {
+    //function to set the new snake direction (called by either the robot or by the key-events)
+    private void setSnakeDirection(String newDirection) {
+        //first of all we need to check that the new direction is not the same as the current direction...
+        //...as in this case we dont want to save this new command!
+        this.currentDirection = snake.getCurrentDirection();
+        if (!(this.currentDirection.equals(newDirection))) {
+
+            //if the snake has not yet executed the previous movement we need to add the new command to a queue...
+            //...and then dont do anything as otherwise we would change the direction of the snake before it has actually moved...
+            //...causing the snake to die immediately
+            if (movementIsBlocked) {
                 //only save the newDirection value if it has been called by either a key or by a robot
-                //if the setSnakeDirection function is called automatically the new direction value will be null!
-                if (!(newDirection == null)) {
+                //if the setSnakeDirection function is called automatically the new direction value will be "null"!
+                if (!(newDirection.equals("null"))) {
                     movementSaver.add(newDirection);
                 }
-                newDirection = movementSaver.pop();
             }
-            //if the queue is already empty and the movement is not blocked the new direction will be executed directly
+            //if the movement is not blocked
+            else {
+                //first check if there are still movements to execute
+                if (!movementSaver.isEmpty()) {
+                    //only save the newDirection value if it has been called by either a key or by a robot
+                    //if the setSnakeDirection function is called automatically the new direction value will be "null"!
+                    if (!(newDirection.equals("null"))) {
+                        movementSaver.add(newDirection);
+                    }
+                    newDirection = movementSaver.pop();
+                }
+                //if the queue is already empty and the movement is not blocked the new direction will be executed directly
 
-            //now block movement again as we are executing the next movement command
-            //movement will be unblocked as soon as the snake has moved (see function actionPerformed above)
-            movementIsBlocked = true;
-            //get the current direction as we need to check for some certain unlogic movements
-            //(the snake cant move 'backwards' into itself!
-            currentDirection = snake.getCurrentDirection();
-            switch (newDirection) {
-                case "Left":
-                    if (!currentDirection.equals("Right")) {
-                        snake.setCurrentDirection("Left");
-                    }
-                    break;
-                case "Right":
-                    if (!currentDirection.equals("Left")) {
-                        snake.setCurrentDirection("Right");
-                    }
-                    break;
-                case "Up":
-                    if (!currentDirection.equals("Down")) {
-                        snake.setCurrentDirection("Up");
-                    }
-                    break;
-                case "Down":
-                    if (!currentDirection.equals("Up")) {
-                        snake.setCurrentDirection("Down");
-                    }
-                    break;
+                //now block movement again as we are executing the next movement command
+                //movement will be unblocked as soon as the snake has moved (see function actionPerformed above)
+                movementIsBlocked = true;
+                //get the current direction as we need to check for some certain unlogic movements
+                //(the snake cant move 'backwards' into itself!
+
+                switch (newDirection) {
+                    case "Left":
+                        if (!currentDirection.equals("Right")) {
+                            snake.setCurrentDirection("Left");
+                        }
+                        break;
+                    case "Right":
+                        if (!currentDirection.equals("Left")) {
+                            snake.setCurrentDirection("Right");
+                        }
+                        break;
+                    case "Up":
+                        if (!currentDirection.equals("Down")) {
+                            snake.setCurrentDirection("Up");
+                        }
+                        break;
+                    case "Down":
+                        if (!currentDirection.equals("Up")) {
+                            snake.setCurrentDirection("Down");
+                        }
+                        break;
+                }
             }
         }
     }
@@ -245,27 +295,11 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     //here we implement the robot api functions (see interface RobotAPI in package ai for explanations)
     //Implement RobotAPI |---BEGIN---->
     @Override
-    public Snake getSnakeObject() {
-        return this.snake;
-    }
-
-    @Override
-    public Apple getAppleObject() {
-        return this.apple;
-    }
-
-    @Override
-    public Window getWindowObject() {
-        return this.window;
-    }
-
-    @Override
-    public boolean gameisRunning() {
-        return this.isRunning;
-    }
-
-    @Override
-    public void robotMoveSnake(String newDirection) {
+    public void robotMoveSnake(String newDirectionCommand) {
+        //first set the current direction again as it is needed in the setSnakeDirection function
+        this.currentDirection = snake.getCurrentDirection();
+        //we dont pass the newDirection directly to the function for debugging purposes!
+        this.newDirection = newDirectionCommand;
         setSnakeDirection(newDirection);
     }
     //Implement RobotAPI <---END----|
