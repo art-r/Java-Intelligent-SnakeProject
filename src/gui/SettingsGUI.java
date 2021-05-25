@@ -1,23 +1,19 @@
 package gui;
 
 import logik.GameWindow;
+import logik.NoValidSettingsFileException;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
 public class SettingsGUI {
-    private static JFrame frame;
+    private JFrame frame;
     private JTextField colorText;
     private JPanel Settings;
     private JRadioButton normalColorsRadioButton;
@@ -43,26 +39,28 @@ public class SettingsGUI {
     //the path to save the settings
     private Path settingsFile = Paths.get("src/logik/Settings.csv");
 
-    //empty constructor
-    public SettingsGUI() { }
-
-    //function to open the settings window
-    public void openWindow() {
+    //constructor containing all the listeners
+    public SettingsGUI() {
         frame = new JFrame("Settings");
-        frame.setContentPane(new SettingsGUI().Settings);
+        frame.setContentPane(this.Settings);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //default operation on close
         frame.setResizable(false); //window must not be resizable!
         frame.pack(); //layout of the window must be sized accordingly to the computers screen
         frame.setVisible(true); //show the window (we want to see our game actually ^^
         frame.setLocationRelativeTo(null); //window should be in the center of the screen
+        openWindow();
+    }
 
-        //add the listeners |---START--->
+    //function to open the settings window
+    public void openWindow() {
+        //check for an existing settings file
+
         //listener for the color radio buttons
         normalColorsRadioButton.addActionListener(e -> {
-            rainbowColor=true;
+            rainbowColor=false;
         });
         rainbowColorsRadioButton.addActionListener(e -> {
-            rainbowColor=false;
+            rainbowColor=true;
         });
 
         //listener for the difficulty slider
@@ -90,9 +88,6 @@ public class SettingsGUI {
             //save the current settings by calling the write function
             writeSettings();
         });
-        //<---STOP---| (added all listeners)
-
-        //check for an existing settings file
         checkForSettingsFile();
     }
 
@@ -102,7 +97,15 @@ public class SettingsGUI {
         try {
             if (Files.exists(settingsFile)) {
                 //call the function that reads the settings.csv file and applies it
-                readSettings();
+                try {
+                    readSettings();
+                } catch(NoValidSettingsFileException e) {
+                    //if the settings file is not a valid settings file, fall back to the default values and ignore it
+                    //set the default values and display the default values in the gui elements
+                    normalColorsRadioButton.doClick();
+                    difficultySlider.setValue(1);
+                    classicSelfRadioButton.doClick();
+                }
             } else {
                 //if it does not exist create it
                 Files.createFile(settingsFile);
@@ -143,19 +146,27 @@ public class SettingsGUI {
         }
     }
 
-    private void readSettings(){
+    private void readSettings() throws NoValidSettingsFileException{
         try {
             BufferedReader settingsReader = Files.newBufferedReader(settingsFile);
             settingsReader.readLine(); //we only need the second line!
-            String[] settings = settingsReader.readLine().split(";"); //we only need the second line!
+            String secondLine = settingsReader.readLine(); //we only need the second line!
+            String[] settings = secondLine.split(";");
+
+            if (secondLine == null) {
+                //if the second line is empty or we can not split it correctly this means that the settings file is not a valid settings file
+                throw new NoValidSettingsFileException();
+            }
+
 
             //read the values that were set last time and set them again
             rainbowColor = Boolean.parseBoolean(settings[0]);
-            gamemode = settings[3];
+            gamemode = settings[2];
 
             //framerate will be set through the setFramerateDifficulty function!
             //this also sets the gui accordingly
-            setFramerateDifficulty(Integer.parseInt(settings[2]));
+            setFramerateDifficulty(Integer.parseInt(settings[1]));
+            difficultySlider.setValue(Integer.parseInt(settings[1]));
 
             //also set the other gui elements accordingly
             //if the coloring is set to rainbow mode
@@ -195,10 +206,9 @@ public class SettingsGUI {
 
     private void writeSettings(){
         try {
-
             BufferedWriter settingsWriter = Files.newBufferedWriter(settingsFile, StandardOpenOption.WRITE);
             String settingsLine = rainbowColor + ";" + difficultySliderValue + ";" + gamemode;
-            settingsWriter.write("rainbow coloring mode (boolean), difficulty slider value (int), gamemode (string)");
+            settingsWriter.write("rainbow coloring mode (boolean), difficulty slider value (int), gamemode (string)\n");
             settingsWriter.write(settingsLine);
             settingsWriter.close();
 
