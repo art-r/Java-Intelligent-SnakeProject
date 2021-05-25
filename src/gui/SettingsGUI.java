@@ -41,7 +41,7 @@ public class SettingsGUI {
     private int difficultySliderValue;
 
     //the path to save the settings
-    private Path settingsFile = Paths.get("src/gui/Settings.csv");
+    private Path settingsFile = Paths.get("src/logik/Settings.csv");
 
     //empty constructor
     public SettingsGUI() { }
