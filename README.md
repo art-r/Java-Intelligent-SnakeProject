@@ -6,6 +6,7 @@
 <figure class="video_container">
   <video autoplay loop>
     <source src="docs/snake-demo.mp4" type="video/mp4">
+    <source src="docs/snake-demo.webm" type="video/webm">
   </video>
 </figure>
 <!-- blank line -->
