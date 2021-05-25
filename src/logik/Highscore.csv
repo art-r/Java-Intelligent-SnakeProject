@@ -1,0 +1,18 @@
+This is the snake game's highscore file
+it will hold the 3 best values for each of the 5 gametypes
+gametype; highscore
+Classic;000
+Classic;000
+Classic;000
+RobotV1;000
+RobotV1;000
+RobotV1;000
+RobotV2;19
+RobotV2;000
+RobotV2;000
+RobotV3;000
+RobotV3;000
+RobotV3;000
+RobotV4;000
+RobotV4;000
+RobotV4;000

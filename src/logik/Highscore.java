@@ -37,8 +37,8 @@ public class Highscore {
                 highscoreReader = Files.newBufferedReader(HIGHSCORE_FILE);
                 highscoreLine = highscoreReader.readLine();
                 while (!(highscoreLine == null)) {
-                    //dont read in empty lines!
-                    if (!(highscoreLine.equals(""))) {
+                    //dont read in empty lines or lines that accidently only contain 0 (this is an unresolved bug)!
+                    if (!(highscoreLine.equals("")) && !(highscoreLine.equals("0"))) {
                         highscoreTempSaver.add(highscoreLine);
                     }
                     highscoreLine = highscoreReader.readLine();
@@ -65,13 +65,7 @@ public class Highscore {
                 //now write all of the lines again to the file (but now with the modified highscore values)
                 highscoreWriter = Files.newBufferedWriter(HIGHSCORE_FILE, StandardOpenOption.WRITE);
                 for (int lineCounter = 0; lineCounter < highscoreTempSaver.size(); lineCounter++) {
-                    if (lineCounter == (highscoreTempSaver.size() - 1)) {
-                        //dont write a new line if this is the last line
-                        highscoreWriter.write(highscoreTempSaver.get(lineCounter));
-                    } else {
-                        //the other lines always need to add a new line at the end (for the next line)
-                        highscoreWriter.write(highscoreTempSaver.get(lineCounter) + "\n");
-                    }
+                    highscoreWriter.write(highscoreTempSaver.get(lineCounter) + "\n");
                 }
                 highscoreWriter.close();
 
@@ -80,6 +74,7 @@ public class Highscore {
                 e.printStackTrace();
             }
         }
+
     }
 
 
