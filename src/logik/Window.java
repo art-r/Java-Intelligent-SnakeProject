@@ -27,8 +27,6 @@ public class Window extends JPanel {
     private boolean discoColorSnake;
     private Color snakeColor;
     private ArrayList<Color> discoColors = new ArrayList<>();
-    
-     Highscore hs = new Highscore();     //New object for Highscore class
 
 
     //constructor (only create the disco-colors)
@@ -121,18 +119,12 @@ public class Window extends JPanel {
 
 
     //draw the game over screen
-    public void drawGameOver(Graphics g, int applesEaten, String gametype) {
+    public void drawGameOver(Graphics g, int applesEaten) {
         //draw the reached score
         g.setColor(Color.red);
         g.setFont(new Font("Ink Free", Font.BOLD, 40));
         FontMetrics metrics1 = getFontMetrics(g.getFont());
         g.drawString("Reached Score: " + applesEaten, (WINDOW_WIDTH - metrics1.stringWidth("Reached Score: " + applesEaten)) / 2, g.getFont().getSize());
-        
-        try {
-            hs.checkHighscore(applesEaten, gametype);
-        }catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
 
         //draw the game over text
         g.setColor(Color.red);

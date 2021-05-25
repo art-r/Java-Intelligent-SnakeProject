@@ -18,9 +18,10 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     private Snake snake = new Snake(window.getBOXLENGTH(), 6);
     private Apple apple = new Apple(window.getWINDOW_HEIGHT(), window.getWINDOW_WIDTH(), window.getBOXLENGTH(), window.getNUMBER_OF_BOXES());
     private RobotMaster robot;
-    private boolean robotIsControlling = true;
-    private String gametype;
+    private HighscoreV2 highscoreHandler = new HighscoreV2();
 
+    //variables to check if a robot is running the game
+    private boolean robotIsControlling = true;
 
     //this is needed for the game to work (see explanation later on!)
     private boolean isRunning = false;
@@ -50,9 +51,8 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     public GameManager(int framerate, String gameType, boolean randomSnakeColor) {
         //set the framerate
         this.framerate = framerate;
-        this.gametype = gameType;
 
-        switch(gametype) {
+        switch(gameType) {
             case "RobotV1":
                 robot = new SimpleRobot(snake, window, apple , this);
                 break;
@@ -69,6 +69,8 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
                 robotIsControlling = false;
                 break;
         }
+        //tell the highscore handler which gametype is running
+        highscoreHandler.setCurrentGametype(gameType);
 
         //tell the window if the snake color should be random
         window.setSnakeRandomColor(randomSnakeColor);
@@ -156,13 +158,13 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
                 if (snakeBodyPartsX.size() == window.getNUMBER_OF_BOXES()) {
                     window.drawGameWon(g, snake.getAppleCounter());
                 } else {
-                    window.drawGameOver(g, snake.getAppleCounter(), gametype);
+                    window.drawGameOver(g, snake.getAppleCounter());
                 }
             } catch (InterruptedException e) {
                 if (snakeBodyPartsX.size() == window.getNUMBER_OF_BOXES()) {
                     window.drawGameWon(g, snake.getAppleCounter());
                 } else {
-                    window.drawGameOver(g, snake.getAppleCounter(), gametype);
+                    window.drawGameOver(g, snake.getAppleCounter());
                 }
             }
         }
@@ -227,7 +229,9 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
         }
 
         //if the game is no longer running stop the swing timer
+        //also call the highscore handler with the current score
         if (!isRunning) {
+            highscoreHandler.writeHighscore(snake.getAppleCounter());
             swingActionEventTimer.stop();
         }
     }
