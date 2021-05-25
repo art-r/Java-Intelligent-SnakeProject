@@ -52,7 +52,7 @@ public class SettingsGUI {
     }
 
     //function to open the settings window
-    public void openWindow() {
+    private void openWindow() {
         //check for an existing settings file
 
         //listener for the color radio buttons
