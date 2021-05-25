@@ -64,8 +64,8 @@ public class Highscore {
 
                 //now write all of the lines again to the file (but now with the modified highscore values)
                 highscoreWriter = Files.newBufferedWriter(HIGHSCORE_FILE, StandardOpenOption.WRITE);
-                for (int lineCounter = 0; lineCounter < highscoreTempSaver.size(); lineCounter++) {
-                    highscoreWriter.write(highscoreTempSaver.get(lineCounter) + "\n");
+                for (String s : highscoreTempSaver) {
+                    highscoreWriter.write(s + "\n");
                 }
                 highscoreWriter.close();
 

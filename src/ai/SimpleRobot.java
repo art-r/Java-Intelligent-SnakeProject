@@ -51,7 +51,7 @@ public class SimpleRobot extends RobotMaster{
 
         //Move Left and Down if the snake has reached the second last block on the top of the window (the last one is reserved!)
         //Note: This should not happen if the snake is on the right side of the window!
-        else if (((snakeY.get(0) == (0 + (windowBlockSize))) && snakeCurrentDirection.equals("Up")) && (!(snakeX.get(0) == 0))) {
+        else if (((snakeY.get(0) == (windowBlockSize)) && snakeCurrentDirection.equals("Up")) && (!(snakeX.get(0) == 0))) {
             gamemanager.robotMoveSnake("Left");
             gamemanager.robotMoveSnake("Down");
         }

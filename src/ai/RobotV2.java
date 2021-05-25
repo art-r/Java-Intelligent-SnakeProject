@@ -8,7 +8,8 @@ import logik.Window;
 
 /*
 This Robot works the following way:
-1. Move towards the apple (but only if the movements dont kill the snake)
+1. Move towards the apple by first matching the x and then the y-coordinate of the apple
+note that the snake can not do a 180 degree turn-around and thus will sometimes have to first move in another direction first!
 */
 
 
@@ -21,7 +22,7 @@ public class RobotV2 extends RobotMaster{
 
     @Override
     public void moveRobot(){
-        //get the newest coordinates of the snake
+        //get the newest coordinates from the snake
         snakeX = snake.getBodypartX();
         snakeY = snake.getBodypartY();
 
@@ -46,8 +47,8 @@ public class RobotV2 extends RobotMaster{
             }
             gamemanager.robotMoveSnake("Right");
 
-        } else { //if (snakeX.get(0) == appleX)
-            //then match the y coordinate
+        } else { //this equals: if (snakeX.get(0) == appleX) -> x-coordinates match
+            //match the y coordinates
             if (snakeY.get(0) < appleY) {
                 if (snakeCurrentDirection.equals("Up")){
                     gamemanager.robotMoveSnake("Right");
