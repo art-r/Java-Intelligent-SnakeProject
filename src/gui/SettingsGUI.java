@@ -208,7 +208,7 @@ public class SettingsGUI {
         try {
             BufferedWriter settingsWriter = Files.newBufferedWriter(settingsFile, StandardOpenOption.WRITE);
             String settingsLine = rainbowColor + ";" + difficultySliderValue + ";" + gamemode;
-            settingsWriter.write("rainbow coloring mode (boolean), difficulty slider value (int), gamemode (string)\n");
+            settingsWriter.write("rainbow coloring mode (boolean); difficulty slider value (int); gamemode (string)\n");
             settingsWriter.write(settingsLine);
             settingsWriter.close();
 
