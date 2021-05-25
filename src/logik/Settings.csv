@@ -1,2 +1,2 @@
-rainbow coloring mode (boolean), difficulty slider value (int), gamemode (string)
-false;3;RobotV3
+rainbow coloring mode (boolean); difficulty slider value (int); gamemode (string)
+false;3;RobotV2

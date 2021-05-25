@@ -9,11 +9,11 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
 public class Highscore {
-    public void writeHighscore(int highscore, String alt) throws IOException {
-        Path path = Paths.get("Highscore.csv");
+    public void writeHighscore(int highscore, String alt, String gametype) throws IOException {
+        Path path = Paths.get("src/logik/Highscore.csv");
 
         String name = "Spieler"; //new line in content
-        String spielmodus = "Spielmodus"; //new line in content
+        String spielmodus = gametype; //new line in content
         String punkte = String.valueOf(highscore);                          //Write the new Highscore
         String altepunkte = String.valueOf(alt);                            //Writes the old Highscore
 
@@ -22,64 +22,64 @@ public class Highscore {
         Files.write(path, (punkte + altepunkte + ";").getBytes(), StandardOpenOption.APPEND);                                   //Can write new Highscore and old one
 
     }
-    public void checkHighscore(int highscore) throws IOException {
+    public void checkHighscore(int highscore, String gametype) throws IOException {
 
 
-        Path path = Paths.get("Highscore.csv");
+        Path path = Paths.get("src/logik/Highscore.csv");
 
         if (Files.exists(path)) {
             try {
-                String line = Files.readAllLines(Paths.get("Highscore.csv")).get(2);        //Beginnt ab null
+                String line = Files.readAllLines(Paths.get("src/logik/Highscore.csv")).get(2);        //Beginnt ab null
                 String[] erste_zeile = line.split(";");
-                String line2 = Files.readAllLines(Paths.get("Highscore.csv")).get(3);
+                String line2 = Files.readAllLines(Paths.get("src/logik/Highscore.csv")).get(3);
                 String[] zweite_zeile = line2.split(";");
-                String line3 = Files.readAllLines(Paths.get("Highscore.csv")).get(4);
+                String line3 = Files.readAllLines(Paths.get("src/logik/Highscore.csv")).get(4);
                 String[] dritte_zeile = line3.split(";");
-                String line4 = Files.readAllLines(Paths.get("Highscore.csv")).get(5);
+                String line4 = Files.readAllLines(Paths.get("src/logik/Highscore.csv")).get(5);
                 String[] vierte_zeile = line4.split(";");
-                String line5 = Files.readAllLines(Paths.get("Highscore.csv")).get(6);
+                String line5 = Files.readAllLines(Paths.get("src/logik/Highscore.csv")).get(6);
                 String[] fünfte_zeile = line5.split(";");
                 int pos_highscore = 2;
 
                 if ((highscore > Integer.parseInt(erste_zeile[pos_highscore])) && highscore != 0) {                             //Checks and compares Highscore with first line, creates a new updated file if Highscore is greater
                     createHighscore();
-                    writeHighscore(highscore, "");
-                    writeHighscore(0, erste_zeile[pos_highscore]);
-                    writeHighscore(0, zweite_zeile[pos_highscore]);
-                    writeHighscore(0, dritte_zeile[pos_highscore]);
-                    writeHighscore(0, vierte_zeile[pos_highscore]);
+                    writeHighscore(highscore, "", gametype);
+                    writeHighscore(0, erste_zeile[pos_highscore], gametype);
+                    writeHighscore(0, zweite_zeile[pos_highscore], gametype);
+                    writeHighscore(0, dritte_zeile[pos_highscore], gametype);
+                    writeHighscore(0, vierte_zeile[pos_highscore], gametype);
 
                 } else if ((highscore > Integer.parseInt(zweite_zeile[pos_highscore])) && highscore != 0) {                             //Checks and compares Highscore with second line, creates a new updated file if Highscore is greater
                     createHighscore();
-                    writeHighscore(0, erste_zeile[pos_highscore]);
-                    writeHighscore(highscore, "");
-                    writeHighscore(0, zweite_zeile[pos_highscore]);
-                    writeHighscore(0, dritte_zeile[pos_highscore]);
-                    writeHighscore(0, vierte_zeile[pos_highscore]);
+                    writeHighscore(0, erste_zeile[pos_highscore], gametype);
+                    writeHighscore(highscore, "", gametype);
+                    writeHighscore(0, zweite_zeile[pos_highscore], gametype);
+                    writeHighscore(0, dritte_zeile[pos_highscore], gametype);
+                    writeHighscore(0, vierte_zeile[pos_highscore], gametype);
 
                 } else if ((highscore > Integer.parseInt(dritte_zeile[pos_highscore])) && highscore != 0) {                             //Checks and compares Highscore with third line, creates a new updated file if Highscore is greater
                     createHighscore();
-                    writeHighscore(0, erste_zeile[pos_highscore]);
-                    writeHighscore(0, zweite_zeile[pos_highscore]);
-                    writeHighscore(highscore, "");
-                    writeHighscore(0, dritte_zeile[pos_highscore]);
-                    writeHighscore(0, vierte_zeile[pos_highscore]);
+                    writeHighscore(0, erste_zeile[pos_highscore], gametype);
+                    writeHighscore(0, zweite_zeile[pos_highscore], gametype);
+                    writeHighscore(highscore, "", gametype);
+                    writeHighscore(0, dritte_zeile[pos_highscore], gametype);
+                    writeHighscore(0, vierte_zeile[pos_highscore], gametype);
 
                 } else if ((highscore > Integer.parseInt(vierte_zeile[pos_highscore])) && highscore != 0) {                             //Checks and compares Highscore with fourth line, creates a new updated file if Highscore is greater
                     createHighscore();
-                    writeHighscore(0, erste_zeile[pos_highscore]);
-                    writeHighscore(0, zweite_zeile[pos_highscore]);
-                    writeHighscore(0, dritte_zeile[pos_highscore]);
-                    writeHighscore(highscore, "");
-                    writeHighscore(0, vierte_zeile[pos_highscore]);
+                    writeHighscore(0, erste_zeile[pos_highscore], gametype);
+                    writeHighscore(0, zweite_zeile[pos_highscore], gametype);
+                    writeHighscore(0, dritte_zeile[pos_highscore], gametype);
+                    writeHighscore(highscore, "", gametype);
+                    writeHighscore(0, vierte_zeile[pos_highscore], gametype);
 
                 } else if ((highscore > Integer.parseInt(fünfte_zeile[pos_highscore])) && highscore != 0) {                             //Checks and compares Highscore with fifth line, creates a new updated file if Highscore is greater
                     createHighscore();
-                    writeHighscore(0, erste_zeile[pos_highscore]);
-                    writeHighscore(0, zweite_zeile[pos_highscore]);
-                    writeHighscore(0, dritte_zeile[pos_highscore]);
-                    writeHighscore(0, vierte_zeile[pos_highscore]);
-                    writeHighscore(highscore, "");
+                    writeHighscore(0, erste_zeile[pos_highscore], gametype);
+                    writeHighscore(0, zweite_zeile[pos_highscore], gametype);
+                    writeHighscore(0, dritte_zeile[pos_highscore], gametype);
+                    writeHighscore(0, vierte_zeile[pos_highscore], gametype);
+                    writeHighscore(highscore, "", gametype);
 
                 }
                 else {
@@ -88,26 +88,26 @@ public class Highscore {
 
             } catch (IndexOutOfBoundsException e) {                             //Falls die Zeilen noch nicht existieren sollen Standartwerde erstellt werden
 
-                writeHighscore(0, "");
-                writeHighscore(0, "");
-                writeHighscore(0, "");
-                writeHighscore(0, "");
-                checkHighscore(highscore);
+                writeHighscore(0, "", gametype);
+                writeHighscore(0, "", gametype);
+                writeHighscore(0, "", gametype);
+                writeHighscore(0, "", gametype);
+                checkHighscore(highscore, gametype);
 
             }
         }
         else if (Files.notExists(path)) {
             createHighscore();
-            writeHighscore(highscore, "");
+            writeHighscore(highscore, "", gametype);
 
         }
     }
     public void createHighscore() throws IOException {
 
         try {
-            File file = new File("Highscore.csv");
+            File file = new File("src/logik/Highscore.csv");
             file.delete();                                          //Cleans the file to overwrite the new Highscore
-            Path path = Paths.get("Highscore.csv");
+            Path path = Paths.get("src/logik/Highscore.csv");
             file.createNewFile();
 
             String column_name = "Spieler"; //new line in content                   //create the columns

@@ -121,7 +121,7 @@ public class Window extends JPanel {
 
 
     //draw the game over screen
-    public void drawGameOver(Graphics g, int applesEaten) {
+    public void drawGameOver(Graphics g, int applesEaten, String gametype) {
         //draw the reached score
         g.setColor(Color.red);
         g.setFont(new Font("Ink Free", Font.BOLD, 40));
@@ -129,7 +129,7 @@ public class Window extends JPanel {
         g.drawString("Reached Score: " + applesEaten, (WINDOW_WIDTH - metrics1.stringWidth("Reached Score: " + applesEaten)) / 2, g.getFont().getSize());
         
         try {
-            hs.checkHighscore(applesEaten);
+            hs.checkHighscore(applesEaten, gametype);
         }catch (IOException e) {
             System.out.println(e.getMessage());
         }

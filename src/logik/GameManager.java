@@ -19,6 +19,7 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     private Apple apple = new Apple(window.getWINDOW_HEIGHT(), window.getWINDOW_WIDTH(), window.getBOXLENGTH(), window.getNUMBER_OF_BOXES());
     private RobotMaster robot;
     private boolean robotIsControlling = true;
+    private String gametype;
 
 
     //this is needed for the game to work (see explanation later on!)
@@ -49,8 +50,9 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     public GameManager(int framerate, String gameType, boolean randomSnakeColor) {
         //set the framerate
         this.framerate = framerate;
+        this.gametype = gameType;
 
-        switch(gameType) {
+        switch(gametype) {
             case "RobotV1":
                 robot = new SimpleRobot(snake, window, apple , this);
                 break;
@@ -154,13 +156,13 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
                 if (snakeBodyPartsX.size() == window.getNUMBER_OF_BOXES()) {
                     window.drawGameWon(g, snake.getAppleCounter());
                 } else {
-                    window.drawGameOver(g, snake.getAppleCounter());
+                    window.drawGameOver(g, snake.getAppleCounter(), gametype);
                 }
             } catch (InterruptedException e) {
                 if (snakeBodyPartsX.size() == window.getNUMBER_OF_BOXES()) {
                     window.drawGameWon(g, snake.getAppleCounter());
                 } else {
-                    window.drawGameOver(g, snake.getAppleCounter());
+                    window.drawGameOver(g, snake.getAppleCounter(), gametype);
                 }
             }
         }
