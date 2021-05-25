@@ -51,10 +51,10 @@ public class Highscore {
                     splittedHighscoreLine = highscoreTempSaver.get(lineCounter).split(";");
                     if ((splittedHighscoreLine[0].equals(currentGametype)) && (Integer.parseInt(splittedHighscoreLine[1]) <= score)) {
                         //if the gametypes match and the highscore entry is smaller than the current score we need to replace that line
+                        //we do this by removing the old line and putting the new score at its place
+                        highscoreTempSaver.remove(lineCounter);
                         highscoreTempSaver.add(lineCounter, (currentGametype + ";" + score));
-                        //this will cause the current line to move one point further in the index
-                        //as we actually want to 'overwrite' that line we need to remove it now
-                        highscoreTempSaver.remove(lineCounter + 1);
+
                         //then we need to break as we dont want to replace the other 2 highscore values as well
                         //this could happen if the 1st highscore is replaced (the other ones would be smaller as well and thus replaced)
                         //thats why we need to break here
