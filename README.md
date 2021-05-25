@@ -11,7 +11,8 @@
 </figure>
 <!-- blank line -->
 
-[*showing a robot version 3 bug*]
+
+[*showing a robot version 3 bug* - docs/snake-demo.mp4]
 
 **there are 4 robot versions and one solo (classic) play mode**
 
