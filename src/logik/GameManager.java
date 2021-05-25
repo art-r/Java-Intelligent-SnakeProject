@@ -18,7 +18,7 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     private final Snake SNAKE = new Snake(WINDOW.getBOXLENGTH(), 6);
     private final Apple APPLE = new Apple(WINDOW.getWINDOW_HEIGHT(), WINDOW.getWINDOW_WIDTH(), WINDOW.getBOXLENGTH());
     private RobotMaster robot;
-    private final HighscoreV2 HIGHSCORE_HANDLER = new HighscoreV2();
+    private final Highscore HIGHSCORE_HANDLER = new Highscore();
 
     //variables to check if a robot is running the game
     //this is set to true by default and only set to false if we are controlling the game manually

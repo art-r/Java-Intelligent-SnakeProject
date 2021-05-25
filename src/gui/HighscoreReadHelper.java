@@ -1,6 +1,6 @@
 package gui;
 
-import logik.HighscoreV2;
+import logik.Highscore;
 
 import java.util.ArrayList;
 
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 //possible game-types:
 //RobotV1, RobotV2, RobotV3, RobotV4 or Classic
 public class HighscoreReadHelper {
-    HighscoreV2 highscoreManager = new HighscoreV2();
+    Highscore highscoreManager = new Highscore();
 
     public ArrayList<Integer> getHighscoreValues(String gametype){
         return highscoreManager.getHighscoreValues(gametype);
