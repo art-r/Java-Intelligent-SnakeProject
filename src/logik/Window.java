@@ -3,7 +3,6 @@ package logik;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Window extends JPanel {
     //the window properties
@@ -28,7 +27,7 @@ public class Window extends JPanel {
     private Color snakeColor;
     private ArrayList<Color> discoColors = new ArrayList<>();
     
-     highscore hs = new highscore();     //New object for highscore class
+     Highscore hs = new Highscore();     //New object for Highscore class
 
 
     //constructor (only create the disco-colors)
