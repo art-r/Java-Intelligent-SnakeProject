@@ -1,13 +1,10 @@
 package logik;
 
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Apple {
     private int xCoordinate;
     private int yCoordinate;
-    private final Random RANDOM_NUMBER_GENERATOR = new Random();
 
     //these variables are needed to check the new apple coordinates
     private boolean newAppleCheck;
@@ -18,13 +15,11 @@ public class Apple {
     private int windowHeight;
     private int windowBoxSize;
     private int windowWidth;
-    private int numberOfBoxes;
 
-    public Apple(int windowHeight, int windowWidth, int windowBoxSize, int numberOfBoxes) {
+    public Apple(int windowHeight, int windowWidth, int windowBoxSize) {
         this.windowHeight = windowHeight;
         this.windowWidth = windowWidth;
         this.windowBoxSize = windowBoxSize;
-        this.numberOfBoxes = numberOfBoxes;
     }
 
     //function to generate a new apple

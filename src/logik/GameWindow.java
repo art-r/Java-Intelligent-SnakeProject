@@ -1,7 +1,5 @@
 package logik;
 
-import ai.RobotAPI;
-
 import javax.swing.*;
 
 //the game window function that brings everything together
@@ -24,14 +22,8 @@ public class GameWindow extends JFrame {
 
         //set the title (and also include which version of the game is executed)
         switch (gametype) {
-            case "RobotV1":
-            case "RobotV2":
-            case "RobotV3":
-            case "RobotV4":
-                gameTitle = gametype + " is running the game";
-                break;
-            default:
-                gameTitle = "Classic Mode";
+            case "RobotV1", "RobotV2", "RobotV3", "RobotV4" -> gameTitle = gametype + " is running the game";
+            default -> gameTitle = "Classic Mode";
         }
 
         this.setTitle("Snake Game - by ASCSF (" + gameTitle + ")");

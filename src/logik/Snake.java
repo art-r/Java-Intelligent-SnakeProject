@@ -1,6 +1,5 @@
 package logik;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class Snake {
@@ -59,18 +58,10 @@ public class Snake {
 
         //move the head in the selected direction
         switch (currentDirection) {
-            case "Up":
-                bodypartY.set(0, (bodypartY.get(0)-windowBoxSize));
-                break;
-            case "Down":
-                bodypartY.set(0, (bodypartY.get(0)+windowBoxSize));
-                break;
-            case "Left":
-                bodypartX.set(0, (bodypartX.get(0)-windowBoxSize));
-                break;
-            case "Right":
-                bodypartX.set(0, (bodypartX.get(0)+windowBoxSize));
-                break;
+            case "Up" -> bodypartY.set(0, (bodypartY.get(0)-windowBoxSize));
+            case "Down" -> bodypartY.set(0, (bodypartY.get(0)+windowBoxSize));
+            case "Left" -> bodypartX.set(0, (bodypartX.get(0)-windowBoxSize));
+            case "Right" -> bodypartX.set(0, (bodypartX.get(0)+windowBoxSize));
         }
     }
 }

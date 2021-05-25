@@ -14,13 +14,14 @@ import java.util.LinkedList;
 
 public class GameManager extends JPanel implements ActionListener, RobotAPI {
     //create the necessary objects
-    private Window window = new Window();
-    private Snake snake = new Snake(window.getBOXLENGTH(), 6);
-    private Apple apple = new Apple(window.getWINDOW_HEIGHT(), window.getWINDOW_WIDTH(), window.getBOXLENGTH(), window.getNUMBER_OF_BOXES());
+    private final Window WINDOW = new Window();
+    private final Snake SNAKE = new Snake(WINDOW.getBOXLENGTH(), 6);
+    private final Apple APPLE = new Apple(WINDOW.getWINDOW_HEIGHT(), WINDOW.getWINDOW_WIDTH(), WINDOW.getBOXLENGTH());
     private RobotMaster robot;
-    private HighscoreV2 highscoreHandler = new HighscoreV2();
+    private final HighscoreV2 HIGHSCORE_HANDLER = new HighscoreV2();
 
     //variables to check if a robot is running the game
+    //this is set to true by default and only set to false if we are controlling the game manually
     private boolean robotIsControlling = true;
 
     //this is needed for the game to work (see explanation later on!)
@@ -32,11 +33,11 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     private boolean movementIsBlocked = false;
     private LinkedList<String> movementSaver = new LinkedList<>();
 
-    //the varialbes for the coordinates and the current direction of the snake
+    //the variables for the coordinates and the current direction of the snake
     private ArrayList<Integer> snakeBodyPartsX;
     private ArrayList<Integer> snakeBodyPartsY;
     private String currentDirection;
-    private String newDirection = snake.getCurrentDirection();
+    private String newDirection = SNAKE.getCurrentDirection();
 
     //we need these variables later when checking if the snake has hit itself
     private int headX;
@@ -52,31 +53,21 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
         //set the framerate
         this.framerate = framerate;
 
-        switch(gameType) {
-            case "RobotV1":
-                robot = new SimpleRobot(snake, window, apple , this);
-                break;
-            case "RobotV2":
-                robot = new RobotV2(snake, window, apple, this);
-                break;
-            case "RobotV3":
-                robot = new RobotV3(snake, window, apple, this);
-                break;
-            case "RobotV4":
-                robot = new RobotV4(snake, window, apple, this);
-                break;
-            default:
-                robotIsControlling = false;
-                break;
+        switch (gameType) {
+            case "RobotV1" -> robot = new SimpleRobot(SNAKE, WINDOW, APPLE, this);
+            case "RobotV2" -> robot = new RobotV2(SNAKE, WINDOW, APPLE, this);
+            case "RobotV3" -> robot = new RobotV3(SNAKE, WINDOW, APPLE, this);
+            case "RobotV4" -> robot = new RobotV4(SNAKE, WINDOW, APPLE, this);
+            default -> robotIsControlling = false;
         }
         //tell the highscore handler which gametype is running
-        highscoreHandler.setCurrentGametype(gameType);
+        HIGHSCORE_HANDLER.setCurrentGametype(gameType);
 
         //tell the window if the snake color should be random
-        window.setSnakeRandomColor(randomSnakeColor);
+        WINDOW.setSnakeRandomColor(randomSnakeColor);
 
         //set the window dimensions, background and properties
-        this.setPreferredSize(new Dimension(window.getWINDOW_WIDTH(), window.getWINDOW_HEIGHT()));
+        this.setPreferredSize(new Dimension(WINDOW.getWINDOW_WIDTH(), WINDOW.getWINDOW_HEIGHT()));
         this.setBackground(Color.black);
         this.setFocusable(true);
 
@@ -98,8 +89,8 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
         //start the timer
         swingActionEventTimer.start();
         //generate a new apple
-        apple.generateNewApple(snakeBodyPartsX, snakeBodyPartsY);
-        //the next steps (paintComponent funciton and actionPerformed function) are called automatically!
+        APPLE.generateNewApple(snakeBodyPartsX, snakeBodyPartsY);
+        //the next steps (paintComponent function and actionPerformed function) are called automatically!
     }
 
     // the running function that will be called each time the swing timer fires (it fires at the specified framerate)
@@ -115,7 +106,7 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
             if (!movementSaver.isEmpty()) {
                 setSnakeDirection("null");
             }
-            snake.move();
+            SNAKE.move();
             //after the snake has moved, movement is no longer blocked
             movementIsBlocked = false;
             checkForApple();
@@ -138,33 +129,33 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
         //only draw these parts if the game is running!
         if (isRunning) {
             //the apple
-            window.setAppleCoordinates(apple.getxCoordinate(), apple.getyCoordinate());
-            window.drawApple(g);
+            WINDOW.setAppleCoordinates(APPLE.getxCoordinate(), APPLE.getyCoordinate());
+            WINDOW.drawApple(g);
 
 
             //the snake
-            snakeBodyPartsX = snake.getBodypartX();
-            snakeBodyPartsY = snake.getBodypartY();
-            window.setSnakeCoordinates(snakeBodyPartsX, snakeBodyPartsY);
-            window.drawSnake(g);
+            snakeBodyPartsX = SNAKE.getBodypartX();
+            snakeBodyPartsY = SNAKE.getBodypartY();
+            WINDOW.setSnakeCoordinates(snakeBodyPartsX, snakeBodyPartsY);
+            WINDOW.drawSnake(g);
 
             //the current score
-            window.drawCurrentScore(g, snake.getAppleCounter());
+            WINDOW.drawCurrentScore(g, SNAKE.getAppleCounter());
         }
         //if the game is not running this means that we should print a game over or 'game succeeded' sign!
         else {
             try {
                 Thread.sleep(1000);
-                if (snakeBodyPartsX.size() == window.getNUMBER_OF_BOXES()) {
-                    window.drawGameWon(g, snake.getAppleCounter());
+                if (snakeBodyPartsX.size() == WINDOW.getNUMBER_OF_BOXES()) {
+                    WINDOW.drawGameWon(g, SNAKE.getAppleCounter());
                 } else {
-                    window.drawGameOver(g, snake.getAppleCounter());
+                    WINDOW.drawGameOver(g, SNAKE.getAppleCounter());
                 }
             } catch (InterruptedException e) {
-                if (snakeBodyPartsX.size() == window.getNUMBER_OF_BOXES()) {
-                    window.drawGameWon(g, snake.getAppleCounter());
+                if (snakeBodyPartsX.size() == WINDOW.getNUMBER_OF_BOXES()) {
+                    WINDOW.drawGameWon(g, SNAKE.getAppleCounter());
                 } else {
-                    window.drawGameOver(g, snake.getAppleCounter());
+                    WINDOW.drawGameOver(g, SNAKE.getAppleCounter());
                 }
             }
         }
@@ -173,19 +164,19 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     //function to check if the snake has 'eaten' an apple
     private void checkForApple() {
         //Check if the snake and apple coordinates match
-        snakeBodyPartsX = snake.getBodypartX();
-        snakeBodyPartsY = snake.getBodypartY();
+        snakeBodyPartsX = SNAKE.getBodypartX();
+        snakeBodyPartsY = SNAKE.getBodypartY();
         //if the head of the snake (index 0) matches the coordinates of the apple the snake has eaten the apple
-        if ((snakeBodyPartsX.get(0) == apple.getxCoordinate()) && (snakeBodyPartsY.get(0) == apple.getyCoordinate())) {
-            snake.eatApple();
-            apple.generateNewApple(snakeBodyPartsX, snakeBodyPartsY);
+        if ((snakeBodyPartsX.get(0) == APPLE.getxCoordinate()) && (snakeBodyPartsY.get(0) == APPLE.getyCoordinate())) {
+            SNAKE.eatApple();
+            APPLE.generateNewApple(snakeBodyPartsX, snakeBodyPartsY);
         }
     }
 
     //check if the snake should die
     private void checkGameOver() {
-        snakeBodyPartsX = snake.getBodypartX();
-        snakeBodyPartsY = snake.getBodypartY();
+        snakeBodyPartsX = SNAKE.getBodypartX();
+        snakeBodyPartsY = SNAKE.getBodypartY();
         //check if the snake has reached a border or has hit itself ==> game over!
         //this will be the case in the following scenarios:
 
@@ -195,7 +186,7 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
         }
 
         //snake head x coordinate equal the window width -> snake has hit the right border
-        else if (snakeBodyPartsX.get(0) == window.getWINDOW_WIDTH()) {
+        else if (snakeBodyPartsX.get(0) == WINDOW.getWINDOW_WIDTH()) {
             isRunning = false;
         }
 
@@ -205,7 +196,7 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
         }
 
         //snake head y coordinate equals the window height -> snake has hit the bottom border
-        else if (snakeBodyPartsY.get(0) == window.getWINDOW_HEIGHT()) {
+        else if (snakeBodyPartsY.get(0) == WINDOW.getWINDOW_HEIGHT()) {
             isRunning = false;
         }
 
@@ -224,14 +215,14 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
         }
 
         //check if the game has been won
-        if (snakeBodyPartsX.size() == window.getNUMBER_OF_BOXES()) {
+        if (snakeBodyPartsX.size() == WINDOW.getNUMBER_OF_BOXES()) {
             isRunning = false;
         }
 
         //if the game is no longer running stop the swing timer
         //also call the highscore handler with the current score
         if (!isRunning) {
-            highscoreHandler.writeHighscore(snake.getAppleCounter());
+            HIGHSCORE_HANDLER.writeHighscore(SNAKE.getAppleCounter());
             swingActionEventTimer.stop();
         }
     }
@@ -240,7 +231,7 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     private void setSnakeDirection(String newDirection) {
         //first of all we need to check that the new direction is not the same as the current direction...
         //...as in this case we dont want to save this new command!
-        this.currentDirection = snake.getCurrentDirection();
+        this.currentDirection = SNAKE.getCurrentDirection();
         if (!(this.currentDirection.equals(newDirection))) {
 
             //if the snake has not yet executed the previous movement we need to add the new command to a queue...
@@ -269,28 +260,28 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
                 //now block movement again as we are executing the next movement command
                 //movement will be unblocked as soon as the snake has moved (see function actionPerformed above)
                 movementIsBlocked = true;
-                //get the current direction as we need to check for some certain unlogic movements
+                //get the current direction as we need to check for some certain movements that are not possible
                 //(the snake cant move 'backwards' into itself!
 
                 switch (newDirection) {
                     case "Left":
                         if (!currentDirection.equals("Right")) {
-                            snake.setCurrentDirection("Left");
+                            SNAKE.setCurrentDirection("Left");
                         }
                         break;
                     case "Right":
                         if (!currentDirection.equals("Left")) {
-                            snake.setCurrentDirection("Right");
+                            SNAKE.setCurrentDirection("Right");
                         }
                         break;
                     case "Up":
                         if (!currentDirection.equals("Down")) {
-                            snake.setCurrentDirection("Up");
+                            SNAKE.setCurrentDirection("Up");
                         }
                         break;
                     case "Down":
                         if (!currentDirection.equals("Up")) {
-                            snake.setCurrentDirection("Down");
+                            SNAKE.setCurrentDirection("Down");
                         }
                         break;
                 }
@@ -303,7 +294,7 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
     @Override
     public void robotMoveSnake(String newDirectionCommand) {
         //first set the current direction again as it is needed in the setSnakeDirection function
-        this.currentDirection = snake.getCurrentDirection();
+        this.currentDirection = SNAKE.getCurrentDirection();
         //we dont pass the newDirection directly to the function for debugging purposes!
         this.newDirection = newDirectionCommand;
         setSnakeDirection(newDirection);
@@ -316,21 +307,13 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
 
         @Override
         public void keyPressed(KeyEvent e) {
-            currentDirection = snake.getCurrentDirection();
+            currentDirection = SNAKE.getCurrentDirection();
 
             switch (e.getKeyCode()) {
-                case KeyEvent.VK_LEFT:
-                    setSnakeDirection("Left");
-                    break;
-                case KeyEvent.VK_RIGHT:
-                    setSnakeDirection("Right");
-                    break;
-                case KeyEvent.VK_UP:
-                    setSnakeDirection("Up");
-                    break;
-                case KeyEvent.VK_DOWN:
-                    setSnakeDirection("Down");
-                    break;
+                case KeyEvent.VK_LEFT -> setSnakeDirection("Left");
+                case KeyEvent.VK_RIGHT -> setSnakeDirection("Right");
+                case KeyEvent.VK_UP -> setSnakeDirection("Up");
+                case KeyEvent.VK_DOWN -> setSnakeDirection("Down");
             }
         }
     }

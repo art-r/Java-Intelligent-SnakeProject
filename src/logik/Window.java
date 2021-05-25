@@ -2,7 +2,6 @@ package logik;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Window extends JPanel {
@@ -37,7 +36,7 @@ public class Window extends JPanel {
         discoColors.add(Color.cyan);
     }
 
-    //set the appleCoordinates (this is done by the game manager by calling the apples's generateApple function!)
+    //set the appleCoordinates (this is done by the game manager by calling the apple's generateApple function!)
     public void setAppleCoordinates(int appleX, int appleY) {
         this.appleX = appleX;
         this.appleY = appleY;
