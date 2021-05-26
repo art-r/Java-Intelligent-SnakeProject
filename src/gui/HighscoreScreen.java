@@ -21,26 +21,28 @@ public class HighscoreScreen {
     private JRadioButton classicRadioButton;
     private JTextField tfHighscore2;
     private JTextField tfHighscore3;
+    private JTextField highscore1TextField;
+    private JTextField highscore3TextField;
+    private JTextField highscore2TextField;
     private String gamemode;
     private ArrayList<Integer> highscores;
     HighscoreReadHelper highscoreReadHelper = new HighscoreReadHelper();
 
 
-    HighscoreScreen() {
+    public HighscoreScreen() {
 
         JFrame frame = new JFrame("higscoreScreen");
-        frame.setContentPane(new HighscoreScreen().highscorePanel);
+        frame.setContentPane(this.highscorePanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
         openHighscoreScreen();
 
-
-
     }
 
     private void openHighscoreScreen() {
-
+        //default is classis
+        classicRadioButton.setSelected(true);
 
         classicRadioButton.addActionListener(e -> gamemode = "classic");
         robotV1RadioButton.addActionListener(e -> gamemode = "RobotV1");
@@ -53,7 +55,7 @@ public class HighscoreScreen {
             public void actionPerformed(ActionEvent e) {
                 switch (gamemode) {
                     case "classic" -> {
-                        highscores = highscoreReadHelper.getHighscoreValues("classic");
+                        highscores = highscoreReadHelper.getHighscoreValues("Classic");
                         tfHighscore1.setText(String.valueOf(highscores.get(0)));
                         tfHighscore1.setText(String.valueOf(highscores.get(1)));
                         tfHighscore1.setText(String.valueOf(highscores.get(2)));
@@ -94,8 +96,9 @@ public class HighscoreScreen {
         closeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                StartScreen startScreen = new StartScreen();
-
+                new StartScreen();
+                //close this window
+                frame.dispose();
             }
         });
 

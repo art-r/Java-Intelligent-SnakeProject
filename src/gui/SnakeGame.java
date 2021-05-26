@@ -5,6 +5,6 @@ package gui;
 public class SnakeGame {
     public static void main(String[] args) {
     //new SettingsGUI();
-    StartScreen startScreen = new StartScreen();
+    new StartScreen();
     }
 }

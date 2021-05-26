@@ -25,8 +25,6 @@ public class StartScreen {
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
         openStartScreen();
-
-
     }
 
     private void openStartScreen() {
@@ -59,7 +57,7 @@ public class StartScreen {
         highscoreButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                HighscoreScreen highscoreSreen = new HighscoreScreen();
+                new HighscoreScreen();
 
                 //close this window
                 frame.dispose();
@@ -116,8 +114,8 @@ public class StartScreen {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         startScreenPanel.add(playButton, gbc);
         final JLabel label1 = new JLabel();
-        Font label1Font = this.$$$getFont$$$("Impact", -1, 28, label1.getFont());
-        if (label1Font != null) label1.setFont(label1Font);
+        //Font label1Font = this.$$$getFont$$$("Impact", -1, 28, label1.getFont());
+        //if (label1Font != null) label1.setFont(label1Font);
         label1.setForeground(new Color(-15811807));
         label1.setText("SnakeGame");
         gbc = new GridBagConstraints();
@@ -133,9 +131,10 @@ public class StartScreen {
         startScreenPanel.add(spacer2, gbc);
     }
 
+    /*
     /**
      * @noinspection ALL
-     */
+     /*
     private Font $$$getFont$$$(String fontName, int style, int size, Font currentFont) {
         if (currentFont == null) return null;
         String resultName;
@@ -154,7 +153,7 @@ public class StartScreen {
         Font fontWithFallback = isMac ? new Font(font.getFamily(), font.getStyle(), font.getSize()) : new StyleContext().getFont(font.getFamily(), font.getStyle(), font.getSize());
         return fontWithFallback instanceof FontUIResource ? fontWithFallback : new FontUIResource(fontWithFallback);
     }
-
+    */
     /**
      * @noinspection ALL
      */
