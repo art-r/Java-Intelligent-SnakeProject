@@ -15,7 +15,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Settings"/>
+          <text value="Settings (robots!)"/>
         </properties>
       </component>
       <component id="f3e6b" class="javax.swing.JButton" binding="highscoreButton">
