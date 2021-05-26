@@ -48,7 +48,7 @@ public class StartScreen {
         settingsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SettingsGUI settingsWindow = new SettingsGUI();
+                new SettingsGUI();
 
                 //close this window
                 frame.dispose();
