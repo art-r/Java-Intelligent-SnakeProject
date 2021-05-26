@@ -33,7 +33,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Play"/>
+          <text value="Play (classic)"/>
         </properties>
       </component>
       <component id="3d208" class="javax.swing.JLabel">

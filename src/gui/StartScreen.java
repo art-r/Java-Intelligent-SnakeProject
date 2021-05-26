@@ -34,7 +34,7 @@ public class StartScreen {
 
                 //create an object of the game
 
-                GameWindow snakeGame = new GameWindow(150, "classic", false);
+                GameWindow snakeGame = new GameWindow(150, "Classic", false);
                 snakeGame.runGame();
 
                 //close this window

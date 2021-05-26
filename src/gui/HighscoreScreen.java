@@ -31,7 +31,7 @@ public class HighscoreScreen {
 
     public HighscoreScreen() {
 
-        frame = new JFrame("higscoreScreen");
+        frame = new JFrame("Higscore Screen");
         frame.setContentPane(this.highscorePanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
