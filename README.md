@@ -23,4 +23,4 @@
 - on game over simply close the window (by clicking the x-button from the window)
 - to run the game again run the src/gui/SnakeGame.java file again (highscores and latest settings will be saved (settings from the last round will only be applied if you switch to the settings window and not if you click on the start window)
 
-*if you click on the start button in the start screen the game will always start in classic (self played) mode with normal difficulty -> to get more settings you will have to click on settings*
+*if you click on the start button in the start screen the game will always start in classic (self played) mode with normal difficulty -> to get more settings you will have to click on settings in the start screen*
