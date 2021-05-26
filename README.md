@@ -18,6 +18,7 @@
 ***only robot v 1 will eventually make it to the end! all the other robots will die before***
 
 ## How to run the game
+- we used openjdk-16.0.1 so this version should be safe to use
 - Download the latest version (preferable from the releases page)
 - run the src/gui/SnakeGame.java file (its a java file) - this file will run/start everything else as soon as needed
 - on game over simply close the window (by clicking the x-button from the window)
