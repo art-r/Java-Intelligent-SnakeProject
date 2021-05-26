@@ -31,20 +31,21 @@ public class HighscoreScreen {
 
     public HighscoreScreen() {
 
-        JFrame frame = new JFrame("higscoreScreen");
+        frame = new JFrame("higscoreScreen");
         frame.setContentPane(this.highscorePanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
         openHighscoreScreen();
-
     }
 
     private void openHighscoreScreen() {
         //default is classis
         classicRadioButton.setSelected(true);
+        gamemode = "Classic";
 
-        classicRadioButton.addActionListener(e -> gamemode = "classic");
+        classicRadioButton.addActionListener(e -> gamemode = "Classic");
         robotV1RadioButton.addActionListener(e -> gamemode = "RobotV1");
         robotV1RadioButton.addActionListener(e -> gamemode = "RobotV2");
         robotV3RadioButton.addActionListener(e -> gamemode = "RobotV3");
@@ -54,36 +55,36 @@ public class HighscoreScreen {
             @Override
             public void actionPerformed(ActionEvent e) {
                 switch (gamemode) {
-                    case "classic" -> {
+                    case "Classic" -> {
                         highscores = highscoreReadHelper.getHighscoreValues("Classic");
                         tfHighscore1.setText(String.valueOf(highscores.get(0)));
-                        tfHighscore1.setText(String.valueOf(highscores.get(1)));
-                        tfHighscore1.setText(String.valueOf(highscores.get(2)));
+                        tfHighscore2.setText(String.valueOf(highscores.get(1)));
+                        tfHighscore3.setText(String.valueOf(highscores.get(2)));
                     }
                     case "RobotV1" -> {
                         highscores = highscoreReadHelper.getHighscoreValues("RobotV1");
                         tfHighscore1.setText(String.valueOf(highscores.get(0)));
-                        tfHighscore1.setText(String.valueOf(highscores.get(1)));
-                        tfHighscore1.setText(String.valueOf(highscores.get(2)));
+                        tfHighscore2.setText(String.valueOf(highscores.get(1)));
+                        tfHighscore3.setText(String.valueOf(highscores.get(2)));
 
                     }
                     case "RobotV2" -> {
                         highscores = highscoreReadHelper.getHighscoreValues("RobotV2");
                         tfHighscore1.setText(String.valueOf(highscores.get(0)));
-                        tfHighscore1.setText(String.valueOf(highscores.get(1)));
-                        tfHighscore1.setText(String.valueOf(highscores.get(2)));
+                        tfHighscore2.setText(String.valueOf(highscores.get(1)));
+                        tfHighscore3.setText(String.valueOf(highscores.get(2)));
                     }
                     case "RobotV3" -> {
                         highscores = highscoreReadHelper.getHighscoreValues("RobotV3");
                         tfHighscore1.setText(String.valueOf(highscores.get(0)));
-                        tfHighscore1.setText(String.valueOf(highscores.get(1)));
-                        tfHighscore1.setText(String.valueOf(highscores.get(2)));
+                        tfHighscore2.setText(String.valueOf(highscores.get(1)));
+                        tfHighscore3.setText(String.valueOf(highscores.get(2)));
                     }
                     case "RobotV4" -> {
                         highscores = highscoreReadHelper.getHighscoreValues("RobotV4");
                         tfHighscore1.setText(String.valueOf(highscores.get(0)));
-                        tfHighscore1.setText(String.valueOf(highscores.get(1)));
-                        tfHighscore1.setText(String.valueOf(highscores.get(2)));
+                        tfHighscore2.setText(String.valueOf(highscores.get(1)));
+                        tfHighscore3.setText(String.valueOf(highscores.get(2)));
                     }
                 }
 

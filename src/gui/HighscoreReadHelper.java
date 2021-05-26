@@ -9,6 +9,7 @@ import java.util.ArrayList;
 //RobotV1, RobotV2, RobotV3, RobotV4 or Classic
 public class HighscoreReadHelper {
     Highscore highscoreManager = new Highscore();
+    private ArrayList<Integer> tempHighscore;
 
     public ArrayList<Integer> getHighscoreValues(String gametype){
         return highscoreManager.getHighscoreValues(gametype);
