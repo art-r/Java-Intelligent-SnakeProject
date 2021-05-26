@@ -43,6 +43,11 @@ public class SettingsGUI {
     //the path for the settings.csv file that holds the settings from the last run
     private final Path SETTINGS_FILE = Paths.get("src/logik/Settings.csv");
 
+    //the other variables/fields that are only placeholders
+    private JTextField colorText;
+    private JTextField difficultyTextField;
+    private JTextField gametypeTextField;
+
     //constructor containing all the listeners
     public SettingsGUI() {
         frame = new JFrame("Settings");
