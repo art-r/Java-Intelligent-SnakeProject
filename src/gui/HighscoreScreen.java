@@ -47,7 +47,7 @@ public class HighscoreScreen {
 
         classicRadioButton.addActionListener(e -> gamemode = "Classic");
         robotV1RadioButton.addActionListener(e -> gamemode = "RobotV1");
-        robotV1RadioButton.addActionListener(e -> gamemode = "RobotV2");
+        robotV2RadioButton.addActionListener(e -> gamemode = "RobotV2");
         robotV3RadioButton.addActionListener(e -> gamemode = "RobotV3");
         robotV4RadioButton.addActionListener(e -> gamemode = "RobotV4");
 
