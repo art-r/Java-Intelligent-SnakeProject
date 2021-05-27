@@ -145,7 +145,7 @@ public class GameManager extends JPanel implements ActionListener, RobotAPI {
         //if the game is not running this means that we should print a game over or 'game succeeded' sign!
         else {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(2000);
                 if (snakeBodyPartsX.size() == WINDOW.getNUMBER_OF_BOXES()) {
                     WINDOW.drawGameWon(g, SNAKE.getAppleCounter());
                 } else {
