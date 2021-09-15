@@ -29,4 +29,4 @@ jobs:
           java-version: '16'
 
       - name: Compile java files
-        run: java -cp java src/gui/SnakeGame.java
+        run: java -cp java src/
