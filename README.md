@@ -1,6 +1,7 @@
 # Java-Intelligent-SnakeProject
 ## Project for semester 2 - a snake game implementation
 
+[![CI](https://github.com/art-r/Java-Intelligent-SnakeProject/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/art-r/Java-Intelligent-SnakeProject/actions/workflows/main.yml)
 
 <!-- blank line -->
 <figure class="video_container">
